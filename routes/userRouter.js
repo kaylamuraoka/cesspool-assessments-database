@@ -18,4 +18,6 @@ router.get("/info", auth, userController.getUserInfo);
 
 router.delete("/delete_account", auth, userController.deleteAccount);
 
+router.patch("/update", auth, userController.updateUser);
+
 module.exports = router;

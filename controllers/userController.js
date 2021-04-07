@@ -222,6 +222,39 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  updateUser: async (req, res) => {
+    try {
+      const { name, email, phone, avatar } = req.body;
+
+      if (!validateName(name))
+        return res.status(400).json({ msg: "Please enter a valid name." });
+
+      if (!validateEmail(email))
+        return res
+          .status(400)
+          .json({ msg: "Please enter a valid email address." });
+
+      if (!validatePhone(phone))
+        return res
+          .status(400)
+          .json({ msg: "Please enter a valid phone number." });
+
+      await Users.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          name,
+          email,
+          phone,
+          avatar,
+        }
+      );
+
+      res.json({ msg: "Update success!" });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
