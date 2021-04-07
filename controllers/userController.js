@@ -255,6 +255,14 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  logout: async (req, res) => {
+    try {
+      res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
+      return res.json({ msg: "Logged out successfully." });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
