@@ -77,6 +77,37 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  activateEmail: async (req, res) => {
+    try {
+      const { activation_token } = req.body;
+      const user = jwt.verify(
+        activation_token,
+        process.env.ACTIVATION_TOKEN_SECRET
+      );
+
+      const { name, email, phone, password } = user;
+
+      const check = await Users.findOne({ email });
+      if (check)
+        return res.status(400).json({
+          msg:
+            "An account with this email address already exists. Try sign in.",
+        });
+
+      const newUser = new Users({
+        name,
+        email,
+        phone,
+        password,
+      });
+
+      await newUser.save();
+
+      res.json({ msg: "Your account has been activated!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
