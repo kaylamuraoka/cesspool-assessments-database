@@ -33,4 +33,6 @@ router.patch(
   userController.updateUsersRole
 );
 
+router.delete("/admin/delete/:id", auth, authAdmin, userController.deleteUser);
+
 module.exports = router;
