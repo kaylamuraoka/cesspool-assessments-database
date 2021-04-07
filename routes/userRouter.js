@@ -26,4 +26,11 @@ router.get("/logout", userController.logout);
 // Admin only routes
 router.get("/admin/all_info", auth, authAdmin, userController.getAllUsersInfo);
 
+router.patch(
+  "/admin/update_role/:id",
+  auth,
+  authAdmin,
+  userController.updateUsersRole
+);
+
 module.exports = router;

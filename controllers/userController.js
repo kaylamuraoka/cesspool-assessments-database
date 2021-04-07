@@ -273,6 +273,22 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  updateUsersRole: async (req, res) => {
+    try {
+      const { role } = req.body;
+
+      await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          role,
+        }
+      );
+
+      res.json({ msg: "Update success!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
