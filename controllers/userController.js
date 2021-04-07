@@ -108,6 +108,49 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      const user = await Users.findOne({ email });
+
+      if (!user)
+        return res
+          .status(400)
+          .json({ msg: "No account with this email exists in our system." });
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch)
+        return res.status(400).json({ msg: "Password is incorrect." });
+
+      const refresh_token = createRefreshToken({ id: user._id });
+      res.cookie("refreshtoken", refresh_token, {
+        httpOnly: true,
+        path: "/user/refresh_token",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
+      res.json({ msg: "Login success!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getAccessToken: (req, res) => {
+    try {
+      const rf_token = req.cookies.refreshtoken;
+
+      if (!rf_token) return res.status(400).json({ msg: "Please login now!" });
+
+      jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) return res.status(400).json({ msg: "Please login now!" });
+
+        const access_token = createAccessToken({ id: user.id });
+        res.json({ access_token });
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
