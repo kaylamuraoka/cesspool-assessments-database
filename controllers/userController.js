@@ -263,6 +263,16 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getAllUsersInfo: async (req, res) => {
+    try {
+      console.log(req.user);
+      const users = await Users.find().select("-password");
+
+      res.json(users);
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
