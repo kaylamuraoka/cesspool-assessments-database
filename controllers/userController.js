@@ -213,6 +213,15 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  deleteAccount: async (req, res) => {
+    try {
+      await Users.findByIdAndDelete(req.user.id);
+
+      res.json({ msg: "Your account has been deleted successfully!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
