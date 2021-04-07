@@ -161,7 +161,7 @@ const userController = {
           .json({ msg: "No account with this email exists in our system." });
 
       const access_token = createAccessToken({ id: user._id });
-      const url = `${CLIENT_URL}/user/reset/${access_token}`;
+      const url = `${CLIENT_URL}/user/reset_password/${access_token}`;
 
       sendMail(
         email,
@@ -175,6 +175,31 @@ const userController = {
       res.json({
         msg: `Password Reset Email Sent. An email has been sent to your email address, ${email}. Follow the directions in the email to reset your password.`,
       });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  resetPassword: async (req, res) => {
+    try {
+      const { password } = req.body;
+      console.log(password);
+
+      if (!validatePassword(password))
+        return res
+          .status(400)
+          .json({ msg: "Password must be at least six characters long." });
+
+      const passwordHash = await bcrypt.hash(password, 12);
+
+      console.log(req.user);
+      await Users.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          password: passwordHash,
+        }
+      );
+
+      res.json({ msg: "Password successfully changed!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
