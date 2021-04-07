@@ -151,6 +151,34 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  forgotPassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+      const user = await Users.findOne({ email });
+      if (!user)
+        return res
+          .status(400)
+          .json({ msg: "No account with this email exists in our system." });
+
+      const access_token = createAccessToken({ id: user._id });
+      const url = `${CLIENT_URL}/user/reset/${access_token}`;
+
+      sendMail(
+        email,
+        url,
+        "Password Reset Request for Cesspool Assessments",
+        user.name,
+        "Reset Password",
+        "Your password can be reset by clicking the button below. If you did not request a new password, please ignore this email."
+      );
+
+      res.json({
+        msg: `Password Reset Email Sent. An email has been sent to your email address, ${email}. Follow the directions in the email to reset your password.`,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
