@@ -1,0 +1,43 @@
+<div
+  style="max-width: 700px; margin:auto; border 10px solid #ddd; padding: 50px 20px; font-size: 110%; text-align: center"
+>
+  <h2 style="text-transform: uppercase; color: teal">
+    Welcome to Cesspool Assessments
+  </h2>
+  <hr style="width: 600px" />
+  <p style="text-transform: capitalize">Hi ${name}!</p>
+  <p>
+    Congratulations! You're almost set to start using your account. Just click
+    the button below to validate your email address.
+  </p>
+
+  <a
+    href="${url}"
+    style="
+      text-align: center;
+      background: crimson;
+      text-decoration: none;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px 0;
+      display: inline-block;
+    "
+    >${txt}</a
+  >
+
+  <p>
+    If the button doesn't work for any reason, you can also paste the following
+    into your browser:
+  </p>
+
+  <div>${url}</div>
+
+  <p>
+    Note: You must perform this validation within the next 24 hours to keep your
+    new account enabled.
+  </p>
+
+  <p>
+    If you encounter any problem, please contact us at ${SENDER_EMAIL_ADDRESS}.
+  </p>
+</div>
