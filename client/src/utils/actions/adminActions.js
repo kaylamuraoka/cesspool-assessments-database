@@ -1,0 +1,3 @@
+export const GET_ALL_USERS_INFO = "GET_ALL_USERS_INFO";
+export const UPDATE_USER_ROLE = "UPDATE_USER_ROLE";
+export const DELETE_USER = "DELETE_USER";
