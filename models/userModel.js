@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/fukunagaengineers/image/upload/v1617762333/avatars/default_avatar_p0x5ql.png",
     },
+    avatar_public_id: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,
