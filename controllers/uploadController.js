@@ -32,6 +32,22 @@ const uploadController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  deleteAvatar: (req, res) => {
+    try {
+      const { public_id } = req.body;
+      if (!public_id)
+        return res.status(400).json({ msg: "No images selected." });
+
+      cloudinary.v2.uploader.destroy(public_id, async (err, result) => {
+        if (err) throw err;
+
+        console.log({ result });
+        res.json({ msg: "Image has been deleted successfully." });
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 const removeTmp = (path) => {
