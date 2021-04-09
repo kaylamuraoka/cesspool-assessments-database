@@ -9,6 +9,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -22,6 +23,8 @@ import IconButton from "@material-ui/core/IconButton";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import axios from "axios";
+import { showErrMsg, showSuccessMsg } from "./Alerts";
+import { isEmail } from "../utils/validation";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,13 +38,28 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    form: {
+      width: "100%",
+      marginTop: theme.spacing(1),
+      "& input:valid + fieldset": {
+        borderColor: "green",
+        borderWidth: 2,
+        color: "green",
+      },
+      "& input:invalid + fieldset": {
+        borderColor: "red",
+        borderWidth: 2,
+      },
+      "& input:valid:focus + fieldset": {
+        borderLeftWidth: 6,
+        padding: "4px !important",
+      },
+    },
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  formControl: {
+  input: {
     marginTop: "35px",
     marginBottom: "30px",
   },
@@ -52,29 +70,28 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     marginLeft: "4px",
   },
+  icon: {
+    opacity: "0.6",
+  },
 }));
 
 const SignIn = () => {
   const classes = useStyles();
 
-  const [values, setValues] = useState({
+  const [user, setUser] = useState({
     email: "",
     password: "",
-    showPassword: false,
+    err: "",
+    success: "",
   });
 
-  const { email, password, showPassword } = values;
+  const [showPass, setShowPass] = useState(false);
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  const { email, password, err, success } = user;
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value, err: "", success: "" });
   };
 
   const handleSubmit = async (e) => {
@@ -82,17 +99,17 @@ const SignIn = () => {
 
     try {
       const res = await axios.post("/user/login", { email, password });
-
-      setValues({ ...values });
+      setUser({ ...user, err: "", success: res.data.msg });
 
       localStorage.setItem("firstLogin", true);
       window.location.href = "/";
 
-      console.log(res.data.msg);
+      showSuccessMsg(res.data.msg);
     } catch (err) {
-      err.response.data.msg && setValues({ ...values });
+      err.response.data.msg &&
+        setUser({ ...user, err: err.response.data.msg, success: "" });
 
-      console.log(err.response.data.msg);
+      showErrMsg(err.response.data.msg);
     }
   };
 
@@ -111,55 +128,76 @@ const SignIn = () => {
           autoComplete="on"
           onSubmit={handleSubmit}
         >
-          <FormControl
-            fullWidth
-            variant="outlined"
-            className={classes.formControl}
-          >
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <OutlinedInput
+          <Grid item xs={12} className={classes.input}>
+            <TextField
+              label="Email Address"
+              fullWidth
+              autoComplete="email"
               id="email"
-              value={values.email}
-              onChange={handleChange("email")}
-              startAdornment={
-                <InputAdornment position="start">
-                  <IconButton aria-label="toggle password visibility">
+              name="email"
+              variant="outlined"
+              required
+              placeholder="Email address"
+              value={email}
+              onChange={handleChangeInput}
+              helperText={
+                !isEmail(email) ||
+                err === "No account with this email exists in our system."
+                  ? "No account with this email exists in our system."
+                  : null
+              }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start" className={classes.icon}>
                     <EmailIcon />
-                  </IconButton>
-                </InputAdornment>
+                  </InputAdornment>
+                ),
+              }}
+              error={
+                !isEmail(email) ||
+                err === "No account with this email exists in our system."
+                  ? true
+                  : false
               }
-              labelWidth={110}
             />
-          </FormControl>
-          <FormControl fullWidth variant="outlined" className={classes.margin}>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <OutlinedInput
+          </Grid>
+          <Grid item xs={12} className={classes.input}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type={showPass ? "text" : "password"}
               id="password"
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
-              startAdornment={
-                <InputAdornment position="start">
-                  <IconButton aria-label="toggle password visibility">
-                    <LockIcon />
-                  </IconButton>
-                </InputAdornment>
+              placeholder="Password"
+              value={password}
+              onChange={handleChangeInput}
+              helperText={
+                err === "Password is incorrect."
+                  ? "Password is incorrect."
+                  : null
               }
-              endAdornment={
-                <InputAdornment position="end">
+              autoComplete="current-password"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start" className={classes.icon}>
+                    <LockIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
+                    onClick={() => setShowPass(!showPass)}
                     edge="end"
                   >
-                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                    {showPass ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={80}
-            ></OutlinedInput>
-          </FormControl>
+                ),
+              }}
+              error={err === "Password is incorrect." ? true : false}
+            />
+          </Grid>
 
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
