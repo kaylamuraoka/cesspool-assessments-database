@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -25,6 +22,7 @@ import LockIcon from "@material-ui/icons/Lock";
 import axios from "axios";
 import { showErrMsg, showSuccessMsg } from "./Alerts";
 import { isEmail } from "../utils/validation";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -77,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = () => {
   const classes = useStyles();
-
+  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -102,7 +100,7 @@ const SignIn = () => {
       setUser({ ...user, err: "", success: res.data.msg });
 
       localStorage.setItem("firstLogin", true);
-      window.location.href = "/";
+      history.push("/");
 
       showSuccessMsg(res.data.msg);
     } catch (err) {

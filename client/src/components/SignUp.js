@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
+import { useHistory } from "react-router-dom";
 
 import {
   isEmail,
@@ -76,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [user, setUser] = useState({
     name: "",
@@ -108,6 +110,8 @@ const SignUp = () => {
       });
 
       setUser({ ...user, err: "", success: res.data.msg });
+
+      history.push("/confirmation");
 
       showSuccessMsg(res.data.msg);
     } catch (err) {
