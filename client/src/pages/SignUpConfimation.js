@@ -49,7 +49,7 @@ const SignUpConfimation = () => {
           </Typography>
 
           <Box mt={3}>
-            <Typography component="p" variant="inherit" color="textSecondary">
+            <Typography component="p" variant="body2" color="textSecondary">
               Didn't receive the email?
               <Link href="/signup" variant="body2" className={classes.link}>
                 Try signing up again
