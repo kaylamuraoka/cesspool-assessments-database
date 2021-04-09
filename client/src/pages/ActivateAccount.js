@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-import { showErrMsg, showSuccessMsg } from "../components/Alerts";
+import { showErrMsg, showSuccessMsg, showInfoMsg } from "../components/Alerts";
 
 const ActivateAccount = () => {
   const { activation_token } = useParams();
@@ -22,11 +22,11 @@ const ActivateAccount = () => {
             "You've already confirmed your email. Sign in to your account."
           ) {
             history.push("/signin");
+            showInfoMsg(err.response.data.msg);
           } else {
             history.push("/signup");
+            showErrMsg(err.response.data.msg);
           }
-
-          showErrMsg(err.response.data.msg);
         }
       };
       activationEmail();
