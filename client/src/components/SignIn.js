@@ -21,7 +21,6 @@ import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import axios from "axios";
 import { showErrMsg, showSuccessMsg } from "./Alerts";
-import { isEmail } from "../utils/validation";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -85,7 +84,7 @@ const SignIn = () => {
 
   const [showPass, setShowPass] = useState(false);
 
-  const { email, password, err, success } = user;
+  const { email, password, err } = user;
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -139,7 +138,6 @@ const SignIn = () => {
               value={email}
               onChange={handleChangeInput}
               helperText={
-                !isEmail(email) ||
                 err === "No account with this email exists in our system."
                   ? "No account with this email exists in our system."
                   : null
@@ -152,7 +150,6 @@ const SignIn = () => {
                 ),
               }}
               error={
-                !isEmail(email) ||
                 err === "No account with this email exists in our system."
                   ? true
                   : false
