@@ -4,6 +4,8 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import SignUpConfirmation from "./pages/SignUpConfimation";
 import ActivateAccount from "./pages/ActivateAccount";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header";
@@ -45,6 +47,8 @@ function App() {
               component={ActivateAccount}
               exact
             />
+
+            <Route path="/forgot_password" component={ForgotPassword} exact />
 
             <Route exact path="/" component={Dashboard} />
             <Route component={NotFound} />
