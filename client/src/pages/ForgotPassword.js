@@ -58,7 +58,6 @@ const ForgotPassword = () => {
     } catch (err) {
       setData({ ...data, err: err.response.data.msg, success: "" });
 
-      history.push("/signup");
       showErrMsg(err.response.data.msg);
     }
   };
