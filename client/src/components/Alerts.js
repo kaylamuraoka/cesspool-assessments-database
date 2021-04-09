@@ -40,7 +40,7 @@ export const showWarningMsg = (msg) => {
 };
 
 export const showInfoMsg = (msg) => {
-  return toast.warning(
+  return toast.info(
     <div>
       <InfoOutlinedIcon />
       <span style={alertText}>{msg}</span>
