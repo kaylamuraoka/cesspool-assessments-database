@@ -91,7 +91,7 @@ const SignUp = () => {
 
   const [showPass, setShowPass] = useState(false);
 
-  const { name, email, phone, password, cf_password, err, success } = user;
+  const { name, email, phone, password, cf_password, err } = user;
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
