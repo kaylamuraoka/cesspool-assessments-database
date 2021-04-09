@@ -90,8 +90,7 @@ const userController = {
       const check = await Users.findOne({ email });
       if (check)
         return res.status(400).json({
-          msg:
-            "An account with this email address already exists. Try sign in.",
+          msg: "You've already confirmed your email. Sign in to your account.",
         });
 
       const newUser = new Users({
@@ -105,6 +104,14 @@ const userController = {
 
       res.json({ msg: "Your account has been activated!" });
     } catch (err) {
+      if (err.message === "jwt expired")
+        return res
+          .status(500)
+          .json({
+            msg:
+              "This link has expired. Sign up again to receive an active link.",
+          });
+
       return res.status(500).json({ msg: err.message });
     }
   },
