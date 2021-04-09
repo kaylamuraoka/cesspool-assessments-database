@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import SignUpConfirmation from "./pages/SignUpConfimation";
+import ActivateAccount from "./pages/ActivateAccount";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header";
@@ -37,7 +38,14 @@ function App() {
           <Switch>
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
+
             <Route exact path="/confirmation" component={SignUpConfirmation} />
+            <Route
+              path="/user/activate/:activation_token"
+              component={ActivateAccount}
+              exact
+            />
+
             <Route exact path="/" component={Dashboard} />
             <Route component={NotFound} />
           </Switch>
