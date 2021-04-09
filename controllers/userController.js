@@ -105,12 +105,10 @@ const userController = {
       res.json({ msg: "Your account has been activated!" });
     } catch (err) {
       if (err.message === "jwt expired")
-        return res
-          .status(500)
-          .json({
-            msg:
-              "This link has expired. Sign up again to receive an active link.",
-          });
+        return res.status(500).json({
+          msg:
+            "This link has expired. Sign up again to receive an active link.",
+        });
 
       return res.status(500).json({ msg: err.message });
     }
@@ -161,6 +159,7 @@ const userController = {
   forgotPassword: async (req, res) => {
     try {
       const { email } = req.body;
+
       const user = await Users.findOne({ email });
       if (!user)
         return res

@@ -5,6 +5,7 @@ import SignUp from "./components/SignUp";
 import SignUpConfirmation from "./pages/SignUpConfimation";
 import ActivateAccount from "./pages/ActivateAccount";
 import ForgotPassword from "./pages/ForgotPassword";
+import PasswordResetSent from "./pages/PasswordResetSent";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./pages/NotFound";
@@ -49,6 +50,11 @@ function App() {
             />
 
             <Route path="/forgot_password" component={ForgotPassword} exact />
+            <Route
+              path="/password_reset_sent"
+              component={PasswordResetSent}
+              exact
+            />
 
             <Route exact path="/" component={Dashboard} />
             <Route component={NotFound} />
