@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     success: "",
   });
 
-  const { email, err, success } = data;
+  const { email, err } = data;
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;

@@ -187,17 +187,18 @@ const userController = {
   },
   resetPassword: async (req, res) => {
     try {
-      const { password } = req.body;
-      console.log(password);
+      const { password, cf_password } = req.body;
 
       if (!validatePassword(password))
         return res
           .status(400)
           .json({ msg: "Password must be at least six characters long." });
 
+      if (!isMatch(password, cf_password))
+        return res.status(400).json({ msg: "Passwords do not match." });
+
       const passwordHash = await bcrypt.hash(password, 12);
 
-      console.log(req.user);
       await Users.findOneAndUpdate(
         { _id: req.user.id },
         {
@@ -205,7 +206,7 @@ const userController = {
         }
       );
 
-      res.json({ msg: "Password successfully changed!" });
+      res.json({ msg: "Password successfully changed! Please sign in." });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -331,6 +332,11 @@ function validatePassword(password) {
     return false;
   }
   return true;
+}
+
+function isMatch(password, cf_password) {
+  if (password === cf_password) return true;
+  return false;
 }
 
 // Authentication functions

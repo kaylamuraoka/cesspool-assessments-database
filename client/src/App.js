@@ -44,15 +44,21 @@ function App() {
 
             <Route exact path="/confirmation" component={SignUpConfirmation} />
             <Route
+              exact
               path="/user/activate/:activation_token"
               component={ActivateAccount}
-              exact
             />
 
-            <Route path="/forgot_password" component={ForgotPassword} exact />
+            <Route exact path="/forgot_password" component={ForgotPassword} />
             <Route
+              exact
               path="/password_reset_sent"
               component={PasswordResetSent}
+            />
+            <Route
+              exact
+              path="/user/reset_password/:token"
+              component={ResetPassword}
               exact
             />
 
