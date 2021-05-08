@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { login } from "../redux/actions/authAction";
+import { login } from "../../redux/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
