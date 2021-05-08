@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "Pleaae enter your email!"],
+      required: [true, "Please enter your email!"],
       trim: true,
       unique: true,
     },
@@ -24,18 +24,40 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter your password!"],
     },
     role: {
-      type: Number,
-      default: 0, // 0 = user, 1 = admin
+      type: String,
+      default: "user",
     },
     avatar: {
       type: String,
       default:
-        "https://res.cloudinary.com/fukunagaengineers/image/upload/v1617762333/avatars/default_avatar_p0x5ql.png",
+        "https://res.cloudinary.com/fukunagaengineers/image/upload/v1618629939/cesspool-assessments/user-avatars/u2rw8sddianfpookkdey.png",
     },
+    address: {
+      type: String,
+      default: "",
+    },
+    followers: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "user",
+      },
+    ],
+    following: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "user",
+      },
+    ],
+    saved: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "user",
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = User = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("user", userSchema);

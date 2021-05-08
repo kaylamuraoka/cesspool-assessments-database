@@ -3,25 +3,24 @@ const userController = require("../controllers/userController");
 const auth = require("../middleware/auth");
 const authAdmin = require("../middleware/authAdmin");
 
-router.post("/register", userController.register);
+router.get("/search", auth, userController.searchUser);
 
-router.post("/activation", userController.activateEmail);
+router.get("/user/:id", auth, userController.getUser);
 
-router.post("/login", userController.login);
+router.patch("/user", auth, userController.updateUser);
 
-router.post("/refresh_token", userController.getAccessToken);
+router.patch("/user/:id/follow", auth, userController.follow);
 
-router.post("/forgot_password", userController.forgotPassword);
+router.patch("/user/:id/unfollow", auth, userController.unfollow);
 
-router.post("/reset_password", auth, userController.resetPassword);
+router.get("/suggestionsUser", auth, userController.suggestionsUser);
 
+// old routes
 router.get("/info", auth, userController.getUserInfo);
 
 router.delete("/delete_account", auth, userController.deleteAccount);
 
-router.patch("/update", auth, userController.updateUser);
-
-router.get("/logout", userController.logout);
+router.patch("/update", auth, userController.updateUser2);
 
 // Admin only routes
 router.get("/admin/all_info", auth, authAdmin, userController.getAllUsersInfo);
