@@ -1,73 +1,187 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
-import SignUpConfirmation from "./pages/SignUpConfimation";
-import ActivateAccount from "./pages/ActivateAccount";
-import ForgotPassword from "./pages/ForgotPassword";
-import PasswordResetSent from "./pages/PasswordResetSent";
-import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./components/Dashboard";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshToken } from "./redux/actions/authAction";
+import { getPosts } from "./redux/actions/postAction";
+import { getSuggestions } from "./redux/actions/suggestionsAction";
+import { getNotifies } from "./redux/actions/notifyAction";
+
+// Material UI Components
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+// Components
+import Alert from "./components/alert/Alert";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+
+// Pages
+import Home from "./pages/Home";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 import NotFound from "./pages/NotFound";
-import Header from "./components/Header";
-import { DataProvider, GlobalState } from "./utils/GlobalState";
-import { ToastContainer, Zoom } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import RegisterConfirmation from "./pages/auth/RegisterConfirmation";
+import ActivateAccount from "./pages/auth/ActivateAccount";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import Profile from "./pages/Profile";
+import Post from "./pages/Post";
+import Discover from "./pages/Discover";
+import Messages from "./pages/messages/Messages";
+import Conversation from "./pages/messages/Conversation";
+import OsdsFieldSurvey from "./pages/OsdsFieldSurvey";
+import Reports from "./pages/Reports";
+
+import io from "socket.io-client";
+import { GLOBALTYPES } from "./redux/actions/globalTypes";
+import SocketClient from "./SocketClient";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  content: {
+    flexGrow: 3,
+    height: "100vh",
+    overflow: "auto",
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+  },
+}));
 
 function App() {
-  const state = useContext(GlobalState);
-  // const [isLoggedIn] = state.userAPI.isLoggedIn;
-  // const [isAdmin] = state.userAPI.isAdmin;
-  // const [error] = state.notification.error;
-  // const [success] = state.notification.success;
-  // const [isLoading] = state.notification.isLoading;
+  const classes = useStyles();
+
+  const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshToken());
+
+    const socket = io();
+    dispatch({
+      type: GLOBALTYPES.SOCKET,
+      payload: socket,
+    });
+    return () => socket.close();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (auth.token) {
+      dispatch(getPosts(auth.token));
+      dispatch(getSuggestions(auth.token));
+      dispatch(getNotifies(auth.token));
+    }
+  }, [dispatch, auth.token]);
+
+  useEffect(() => {
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+        }
+      });
+    }
+  }, []);
 
   return (
-    <BrowserRouter>
-      <ToastContainer
-        position="top-right"
-        autoClose={8000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        rtl={false}
-        draggable
-        closeOnClick
-        transition={Zoom}
-        pauseOnHover
-      />
-      <div>
-        <DataProvider>
-          <Header />
+    <div className={classes.root}>
+      <CssBaseline />
+      <BrowserRouter>
+        {auth.token && <Header />}
+        {auth.token && <SocketClient />}
+
+        <Alert />
+        <main className={classes.content}>
+          {auth.token && <div className={classes.toolbar} />}
           <Switch>
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/signup" component={SignUp} />
+            <Route path="/" component={auth.token ? Home : Login} exact />
 
-            <Route exact path="/confirmation" component={SignUpConfirmation} />
             <Route
               exact
-              path="/user/activate/:activation_token"
-              component={ActivateAccount}
+              path="/register"
+              component={auth.token ? Home : Register}
             />
 
-            <Route exact path="/forgot_password" component={ForgotPassword} />
             <Route
               exact
-              path="/password_reset_sent"
-              component={PasswordResetSent}
+              path="/register_confirmation"
+              component={auth.token ? NotFound : RegisterConfirmation}
             />
+
             <Route
-              exact
-              path="/user/reset_password/:token"
-              component={ResetPassword}
+              path="/activate/:activation_token"
+              component={auth.token ? NotFound : ActivateAccount}
               exact
             />
 
-            <Route exact path="/" component={Dashboard} />
-            <Route component={NotFound} />
+            <Route
+              path="/forgot_password"
+              component={auth.token ? NotFound : ForgotPassword}
+              exact
+            />
+
+            <Route
+              path="/reset_password/:token"
+              component={auth.token ? NotFound : ResetPassword}
+              exact
+            />
+
+            <Route
+              path="/profile/:id"
+              component={auth.token ? Profile : NotFound}
+              exact
+            />
+
+            <Route
+              path="/post/:id"
+              component={auth.token ? Post : NotFound}
+              exact
+            />
+
+            <Route
+              exact
+              path="/discover"
+              component={auth.token ? Discover : Login}
+            />
+
+            <Route
+              exact
+              path="/messages"
+              component={auth.token ? Messages : Login}
+            />
+
+            <Route
+              path="/messages/:id"
+              component={auth.token ? Conversation : NotFound}
+              exact
+            />
+
+            <Route
+              exact
+              path="/surveys"
+              component={auth.token ? OsdsFieldSurvey : Login}
+            />
+
+            <Route
+              path="/reports"
+              component={auth.token ? Reports : Login}
+              exact
+            />
+
+            <Route path="*" component={NotFound} exact />
           </Switch>
-        </DataProvider>
-      </div>
-    </BrowserRouter>
+          {auth.token && <Footer />}
+        </main>
+      </BrowserRouter>
+    </div>
   );
 }
 
