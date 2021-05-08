@@ -5,6 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const path = require("path");
+const SocketServer = require("./socketServer");
 
 const app = express();
 app.use(express.json());
@@ -16,9 +17,22 @@ app.use(
   })
 );
 
+// Socket
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+
+io.on("connection", (socket) => {
+  SocketServer(socket);
+});
+
 // Routes
-app.use("/user", require("./routes/userRouter"));
-app.use("/api", require("./routes/upload"));
+app.use("/api", require("./routes/authRouter"));
+app.use("/api", require("./routes/userRouter"));
+// app.use("/api", require("./routes/upload"));
+app.use("/api", require("./routes/messageRouter"));
+app.use("/api", require("./routes/postRouter"));
+app.use("/api", require("./routes/commentRouter"));
+app.use("/api", require("./routes/notifyRouter"));
 
 // Connect to mongodb
 const URI = process.env.MONGODB_URL;
@@ -44,6 +58,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
