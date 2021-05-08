@@ -113,7 +113,6 @@ const SocketServer = (socket) => {
   });
 
   // Check User Online / Offline
-
   socket.on("checkUserOnline", (data) => {
     const following = users.filter((user) =>
       data.following.find((item) => item._id === user.id)
@@ -129,6 +128,18 @@ const SocketServer = (socket) => {
         socket
           .to(`${client.socketId}`)
           .emit("checkUserOnlineToClient", data._id);
+      });
+    }
+  });
+
+  // Post
+  socket.on("deletePost", (post) => {
+    const ids = [...post.user.followers, post.user._id];
+
+    const clients = users.filter((user) => ids.includes(user.id));
+    if (clients.length > 0) {
+      clients.forEach((client) => {
+        socket.to(`${client.socketId}`).emit("deletePostToClient", post);
       });
     }
   });

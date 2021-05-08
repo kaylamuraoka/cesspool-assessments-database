@@ -220,6 +220,8 @@ export const deletePost = ({ post, auth, socket }) => async (dispatch) => {
     payload: post,
   });
 
+  socket.emit("deletePost", post);
+
   try {
     const res = await deleteDataAPI(`post/${post._id}`, auth.token);
 

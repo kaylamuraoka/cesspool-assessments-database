@@ -162,6 +162,15 @@ const SocketClient = () => {
     return () => socket.off("checkUserOffline");
   }, [socket, dispatch]);
 
+  // Post
+  useEffect(() => {
+    socket.on("deletePostToClient", (post) => {
+      dispatch({ type: POST_TYPES.DELETE_POST, payload: post });
+    });
+
+    return () => socket.off("deletePostToClient");
+  }, [socket, dispatch]);
+
   return (
     <>
       <audio controls ref={audioRef} style={{ display: "none" }}>
