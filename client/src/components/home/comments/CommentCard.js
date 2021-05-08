@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Moment from "react-moment";
-import LikeButton from "../../LikeButton";
+import LikeButton from "../../buttons/LikeButton";
 import { useSelector, useDispatch } from "react-redux";
 import CommentMenu from "./CommentMenu";
 import {

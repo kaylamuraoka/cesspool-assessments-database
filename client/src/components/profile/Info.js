@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import FollowBtn from "../FollowBtn";
 
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
@@ -17,6 +16,7 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import EditProfile from "./EditProfile";
 import Followers from "./Followers";
 import Following from "./Following";
+import FollowBtn from "../buttons/FollowBtn";
 
 const useStyles = makeStyles((theme) => ({
   large: {

@@ -6,7 +6,7 @@ import {
 } from "../redux/actions/discoverAction";
 import LoadIcon from "../images/loading.gif";
 import PostThumb from "../components/PostThumb";
-import LoadMoreBtn from "../components/LoadMoreBtn";
+import LoadMoreBtn from "../components/buttons/LoadMoreBtn";
 import { getDataAPI } from "../utils/fetchData";
 
 // Material UI Components

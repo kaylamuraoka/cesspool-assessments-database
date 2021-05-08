@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { follow, unfollow } from "../redux/actions/profileAction";
+import { follow, unfollow } from "../../redux/actions/profileAction";
 
 import Button from "@material-ui/core/Button";
 

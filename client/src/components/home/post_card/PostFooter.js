@@ -8,7 +8,7 @@ import {
   savePost,
   unsavePost,
 } from "../../../redux/actions/postAction";
-import LikeButton from "../../LikeButton";
+import LikeButton from "../../buttons/LikeButton";
 import { BASE_URL } from "../../../utils/config";
 import { EmailShareButton } from "react-share";
 

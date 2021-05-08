@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import UserCard from "../UserCard";
-import FollowBtn from "../FollowBtn";
+import FollowBtn from "../buttons/FollowBtn";
 
 // Material UI Components
 import Dialog from "@material-ui/core/Dialog";

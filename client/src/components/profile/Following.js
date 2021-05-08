@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import FollowBtn from "../FollowBtn";
+import FollowBtn from "../buttons/FollowBtn";
 import UserCard from "../UserCard";
 
 // Material UI Components

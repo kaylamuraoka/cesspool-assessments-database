@@ -4,6 +4,7 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
+
 const LikeButton = ({ isLike, handleLike, handleUnlike, size }) => {
   return (
     <>
