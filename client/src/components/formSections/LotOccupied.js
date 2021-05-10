@@ -23,7 +23,7 @@ const LotOccupied = ({ postData, setPostData, classes, handleChangeInput }) => {
         </Box>
         <Box>
           <FormControl
-            component="fieldset"
+            variant="outlined"
             className={classes.formControl}
             size="small"
             error={alert.lotOccupied ? true : false}
@@ -48,6 +48,7 @@ const LotOccupied = ({ postData, setPostData, classes, handleChangeInput }) => {
                   label={option}
                 />
               ))}
+
               <Box>
                 <FormControlLabel
                   value="Other"
