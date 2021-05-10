@@ -11,13 +11,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
 
-const OsdsLocation = ({
-  postData,
-  setPostData,
-  osdsLocation,
-  setOsdsLocation,
-  removeElement,
-}) => {
+const OsdsLocation = ({ postData, setPostData }) => {
   const { alert } = useSelector((state) => state);
 
   return (
@@ -49,17 +43,15 @@ const OsdsLocation = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsLocation.frontyard}
+                  checked={postData.osdsLocation.frontyard}
                   onChange={(e) => {
-                    setOsdsLocation({
-                      ...osdsLocation,
-                      frontyard: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsLocation.push("Frontyard");
-                    } else {
-                      removeElement(postData.osdsLocation, "Frontyard");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsLocation: {
+                        ...postData.osdsLocation,
+                        frontyard: e.target.checked,
+                      },
+                    }));
                   }}
                   name="frontyard"
                 />
@@ -71,17 +63,15 @@ const OsdsLocation = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsLocation.backyard}
+                  checked={postData.osdsLocation.backyard}
                   onChange={(e) => {
-                    setOsdsLocation({
-                      ...osdsLocation,
-                      backyard: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsLocation.push("Backyard");
-                    } else {
-                      removeElement(postData.osdsLocation, "Backyard");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsLocation: {
+                        ...postData.osdsLocation,
+                        backyard: e.target.checked,
+                      },
+                    }));
                   }}
                   name="backyard"
                 />
@@ -93,17 +83,15 @@ const OsdsLocation = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsLocation.nextToBldg}
+                  checked={postData.osdsLocation.nextToBldg}
                   onChange={(e) => {
-                    setOsdsLocation({
-                      ...osdsLocation,
-                      nextToBldg: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsLocation.push("Next to Bldg");
-                    } else {
-                      removeElement(postData.osdsLocation, "Next to Bldg");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsLocation: {
+                        ...postData.osdsLocation,
+                        nextToBldg: e.target.checked,
+                      },
+                    }));
                   }}
                   name="nextToBldg"
                 />
@@ -117,21 +105,16 @@ const OsdsLocation = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsLocation.other}
+                  checked={postData.osdsLocation.other}
                   onChange={(e) => {
-                    setOsdsLocation({
-                      ...osdsLocation,
-                      other: e.target.checked,
-                    });
-                    setPostData({
+                    setPostData((postData) => ({
                       ...postData,
-                      osdsLocationOtherValue: "",
-                    });
-                    if (e.target.checked) {
-                      postData.osdsLocation.push("Other");
-                    } else {
-                      removeElement(postData.osdsLocation, "Other");
-                    }
+                      osdsLocation: {
+                        ...postData.osdsLocation,
+                        other: e.target.checked,
+                        otherValue: "",
+                      },
+                    }));
                   }}
                   name="other"
                 />
@@ -139,13 +122,16 @@ const OsdsLocation = ({
               label="Other"
             />
             <TextField
-              onChange={(e) =>
-                setPostData({
+              onChange={(e) => {
+                setPostData((postData) => ({
                   ...postData,
-                  osdsLocationOtherValue: e.target.value,
-                })
-              }
-              value={postData.osdsLocationOtherValue}
+                  osdsLocation: {
+                    ...postData.osdsLocation,
+                    otherValue: e.target.value,
+                  },
+                }));
+              }}
+              value={postData.osdsLocation.otherValue}
               name="otherValue"
               size="small"
               style={{
@@ -154,18 +140,18 @@ const OsdsLocation = ({
                 maxWidth: 150,
               }}
               helperText={
-                osdsLocation.other &&
-                postData.osdsLocationOtherValue.length === 0
+                postData.osdsLocation.other &&
+                postData.osdsLocation.otherValue.length === 0
                   ? "Please provide a value."
                   : "Other value"
               }
               error={
-                osdsLocation.other &&
-                postData.osdsLocationOtherValue.length === 0
+                postData.osdsLocation.other &&
+                postData.osdsLocation.otherValue.length === 0
                   ? true
                   : false
               }
-              disabled={osdsLocation.other ? false : true}
+              disabled={postData.osdsLocation.other ? false : true}
             />
           </FormGroup>
           {alert.osdsLocation && (
