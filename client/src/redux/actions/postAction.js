@@ -16,14 +16,17 @@ export const POST_TYPES = {
   UPDATE_POST: "UPDATE_POST",
   GET_POST: "GET_POST",
   DELETE_POST: "DELETE_POST",
+  GET_ALL_POSTS: "GET_ALL_POSTS",
 };
 
 export const createPost = ({ postData, images, auth, socket }) => async (
   dispatch
 ) => {
   const check = validPost(postData);
-  if (check.errLength > 0)
+
+  if (check.errLength > 0) {
     return dispatch({ type: GLOBALTYPES.ALERT, payload: check.errMsg });
+  }
 
   let media = [];
   try {
@@ -102,8 +105,12 @@ export const updatePost = ({ postData, images, auth, status }) => async (
   dispatch
 ) => {
   let media = [];
-  const imgNewUrl = images.filter((img) => !img.url);
-  const imgOldUrl = images.filter((img) => img.url);
+  let imgNewUrl = [];
+  let imgOldUrl = [];
+  if (images.length > 0) {
+    imgNewUrl = images.filter((img) => !img.url);
+    imgOldUrl = images.filter((img) => img.url);
+  }
 
   if (
     status.postData === postData &&
@@ -118,12 +125,12 @@ export const updatePost = ({ postData, images, auth, status }) => async (
     if (imgNewUrl.length > 0) media = await postImageUpload(imgNewUrl);
 
     const res = await patchDataAPI(
-      (`post/${status._id}`,
+      `post/${status._id}`,
       {
         ...postData,
         images: [...imgOldUrl, ...media],
       },
-      auth.token)
+      auth.token
     );
 
     dispatch({
@@ -269,6 +276,28 @@ export const unsavePost = ({ post, auth }) => async (dispatch) => {
     dispatch({
       type: GLOBALTYPES.ALERT,
       payload: { error: err.response.data.msg },
+    });
+  }
+};
+
+// Newly added to get all posts
+export const getAllPosts = (token) => async (dispatch) => {
+  try {
+    dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
+    const res = await getDataAPI("getAllPosts", token);
+
+    dispatch({
+      type: POST_TYPES.GET_ALL_POSTS,
+      payload: { ...res.data, page: 2 },
+    });
+
+    dispatch({ type: POST_TYPES.LOADING_POST, payload: false });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
     });
   }
 };
