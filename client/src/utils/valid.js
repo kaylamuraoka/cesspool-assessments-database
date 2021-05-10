@@ -59,9 +59,7 @@ export const validPost = ({
   liquid,
   liquidDistanceToFinishedGrade,
   osdsLocation,
-  osdsLocationOtherValue,
   rightOfEntryIssue,
-  rightOfEntryIssueOtherValue,
 }) => {
   const err = {};
 
@@ -81,9 +79,9 @@ export const validPost = ({
     err.osdsFound = "This field is required.";
   }
 
-  if (!osdsIs.length) {
-    err.osdsIs = "This field is required.";
-  }
+  // if (!osdsIs.length) {
+  //   err.osdsIs = "This field is required.";
+  // }
 
   if (!accessPortProvided) {
     err.accessPortProvided = "This field is required.";
@@ -97,13 +95,13 @@ export const validPost = ({
     err.outletPipingFound = "This field is required.";
   }
 
-  if (!osdsLocation.length) {
-    err.osdsLocation = "This field is required.";
-  }
+  // if (!osdsLocation.length) {
+  //   err.osdsLocation = "This field is required.";
+  // }
 
-  if (!rightOfEntryIssue.length) {
-    err.rightOfEntryIssue = "This field is required.";
-  }
+  // if (!rightOfEntryIssue.length) {
+  //   err.rightOfEntryIssue = "This field is required.";
+  // }
 
   // if (!password) {
   //   err.password = "Please add your password.";
