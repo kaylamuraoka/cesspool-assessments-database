@@ -11,13 +11,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
 
-const RightOfEntry = ({
-  postData,
-  setPostData,
-  rightOfEntryIssue,
-  setRightOfEntryIssue,
-  removeElement,
-}) => {
+const RightOfEntry = ({ postData, setPostData }) => {
   const { alert } = useSelector((state) => state);
 
   return (
@@ -49,17 +43,15 @@ const RightOfEntry = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={rightOfEntryIssue.none}
+                  checked={postData.rightOfEntryIssue.none}
                   onChange={(e) => {
-                    setRightOfEntryIssue({
-                      ...rightOfEntryIssue,
-                      none: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.rightOfEntryIssue.push("None");
-                    } else {
-                      removeElement(postData.rightOfEntryIssue, "None");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      rightOfEntryIssue: {
+                        ...postData.rightOfEntryIssue,
+                        none: e.target.checked,
+                      },
+                    }));
                   }}
                   name="none"
                 />
@@ -71,17 +63,15 @@ const RightOfEntry = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={rightOfEntryIssue.fenced}
+                  checked={postData.rightOfEntryIssue.fenced}
                   onChange={(e) => {
-                    setRightOfEntryIssue({
-                      ...rightOfEntryIssue,
-                      fenced: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.rightOfEntryIssue.push("Fenced");
-                    } else {
-                      removeElement(postData.rightOfEntryIssue, "Fenced");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      rightOfEntryIssue: {
+                        ...postData.rightOfEntryIssue,
+                        fenced: e.target.checked,
+                      },
+                    }));
                   }}
                   name="fenced"
                 />
@@ -93,17 +83,15 @@ const RightOfEntry = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={rightOfEntryIssue.gated}
+                  checked={postData.rightOfEntryIssue.gated}
                   onChange={(e) => {
-                    setRightOfEntryIssue({
-                      ...rightOfEntryIssue,
-                      gated: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.rightOfEntryIssue.push("Gated");
-                    } else {
-                      removeElement(postData.rightOfEntryIssue, "Gated");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      rightOfEntryIssue: {
+                        ...postData.rightOfEntryIssue,
+                        gated: e.target.checked,
+                      },
+                    }));
                   }}
                   name="gated"
                 />
@@ -115,17 +103,15 @@ const RightOfEntry = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={rightOfEntryIssue.dogs}
+                  checked={postData.rightOfEntryIssue.dogs}
                   onChange={(e) => {
-                    setRightOfEntryIssue({
-                      ...rightOfEntryIssue,
-                      dogs: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.rightOfEntryIssue.push("Dogs");
-                    } else {
-                      removeElement(postData.rightOfEntryIssue, "Dogs");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      rightOfEntryIssue: {
+                        ...postData.rightOfEntryIssue,
+                        dogs: e.target.checked,
+                      },
+                    }));
                   }}
                   name="dogs"
                 />
@@ -139,21 +125,16 @@ const RightOfEntry = ({
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={rightOfEntryIssue.other}
+                  checked={postData.rightOfEntryIssue.other}
                   onChange={(e) => {
-                    setRightOfEntryIssue({
-                      ...rightOfEntryIssue,
-                      other: e.target.checked,
-                    });
-                    setPostData({
+                    setPostData((postData) => ({
                       ...postData,
-                      rightOfEntryIssueOtherValue: "",
-                    });
-                    if (e.target.checked) {
-                      postData.rightOfEntryIssue.push("Other");
-                    } else {
-                      removeElement(postData.rightOfEntryIssue, "Other");
-                    }
+                      rightOfEntryIssue: {
+                        ...postData.rightOfEntryIssue,
+                        other: e.target.checked,
+                        otherValue: "",
+                      },
+                    }));
                   }}
                   name="other"
                 />
@@ -163,12 +144,15 @@ const RightOfEntry = ({
             <TextField
               required
               onChange={(e) =>
-                setPostData({
+                setPostData((postData) => ({
                   ...postData,
-                  rightOfEntryIssueOtherValue: e.target.value,
-                })
+                  rightOfEntryIssue: {
+                    ...postData.rightOfEntryIssue,
+                    otherValue: e.target.value,
+                  },
+                }))
               }
-              value={postData.rightOfEntryIssueOtherValue}
+              value={postData.rightOfEntryIssue.otherValue}
               name="otherValue"
               size="small"
               style={{
@@ -177,18 +161,18 @@ const RightOfEntry = ({
                 maxWidth: 150,
               }}
               helperText={
-                rightOfEntryIssue.other &&
-                postData.rightOfEntryIssueOtherValue.length === 0
+                postData.rightOfEntryIssue.other &&
+                postData.rightOfEntryIssue.otherValue.length === 0
                   ? "Please provide a value."
                   : "Other value"
               }
               error={
-                rightOfEntryIssue.other &&
-                postData.rightOfEntryIssueOtherValue.length === 0
+                postData.rightOfEntryIssue.other &&
+                postData.rightOfEntryIssue.otherValue.length === 0
                   ? true
                   : false
               }
-              disabled={rightOfEntryIssue.other ? false : true}
+              disabled={postData.rightOfEntryIssue.other ? false : true}
             />
           </FormGroup>
           {alert.rightOfEntryIssue && (
