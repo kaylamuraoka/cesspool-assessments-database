@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, forwardRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import { createPost, updatePost } from "../redux/actions/postAction";
@@ -35,7 +35,7 @@ import OsdsLocation from "./formSections/OsdsLocation";
 import RightOfEntry from "./formSections/RightOfEntry";
 import DistanceToGrade from "./formSections/DistanceToGrade";
 
-const Transition = forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
@@ -78,17 +78,34 @@ function StatusModal() {
     accessPortProvided: "No",
     numOfAccessPorts: "",
     portSize: "",
-    osdsIs: [],
+    osdsIs: {
+      dry: false,
+      wet_water_scum: false,
+      wet_sludge: false,
+      odorous: false,
+      unknown: false,
+    },
     inletPipingFound: "No",
     inletPipingDistance: "",
     outletPipingFound: "No",
     outletPipingDistance: "",
     liquid: "",
     liquidDistanceToFinishedGrade: "",
-    osdsLocation: [],
-    osdsLocationOtherValue: "",
-    rightOfEntryIssue: [],
-    rightOfEntryIssueOtherValue: "",
+    osdsLocation: {
+      frontyard: false,
+      backyard: false,
+      nextToBldg: false,
+      other: false,
+      otherValue: "",
+    },
+    rightOfEntryIssue: {
+      none: false,
+      fenced: false,
+      gated: false,
+      dogs: false,
+      other: false,
+      otherValue: "",
+    },
   };
 
   const [images, setImages] = useState([]);
@@ -98,36 +115,6 @@ function StatusModal() {
   const [tracks, setTracks] = useState("");
 
   const [postData, setPostData] = useState(initialState);
-
-  const [osdsIs, setOsdsIs] = useState({
-    dry: false,
-    wet_water_scum: false,
-    wet_sludge: false,
-    odorous: false,
-    unknown: false,
-  });
-
-  const [osdsLocation, setOsdsLocation] = useState({
-    frontyard: false,
-    backyard: false,
-    nextToBldg: false,
-    other: false,
-  });
-
-  const [rightOfEntryIssue, setRightOfEntryIssue] = useState({
-    none: false,
-    fenced: false,
-    gated: false,
-    dogs: false,
-    other: false,
-  });
-
-  function removeElement(array, elem) {
-    var index = array.indexOf(elem);
-    if (index > -1) {
-      array.splice(index, 1);
-    }
-  }
 
   const handleChangeImages = (e) => {
     const files = [...e.target.files];
@@ -174,6 +161,7 @@ function StatusModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log({ ...postData });
     // if (images.length === 0)
     //   return dispatch({
     //     type: GLOBALTYPES.ALERT,
@@ -187,28 +175,6 @@ function StatusModal() {
 
     setPostData(initialState);
     setImages([]);
-    setOsdsIs({
-      dry: false,
-      wet_water_scum: false,
-      wet_sludge: false,
-      odorous: false,
-      unknown: false,
-    });
-
-    setOsdsLocation({
-      frontyard: false,
-      backyard: false,
-      nextToBldg: false,
-      other: false,
-    });
-
-    setRightOfEntryIssue({
-      none: false,
-      fenced: false,
-      gated: false,
-      dogs: false,
-      other: false,
-    });
 
     if (tracks) tracks.stop();
     dispatch({ type: GLOBALTYPES.STATUS, payload: false });
@@ -239,26 +205,7 @@ function StatusModal() {
   useEffect(() => {
     if (status.onEdit) {
       setPostData({
-        dateTime: status.dateTime,
-        weather: status.weather,
-        weatherOtherValue: status.weatherOtherValue,
-        lotOccupied: status.lotOccupied,
-        lotOccupiedOtherValue: status.lotOccupiedOtherValue,
-        osdsFound: status.osdsFound,
-        accessPortProvided: status.accessPortProvided,
-        numOfAccessPorts: status.numOfAccessPorts,
-        portSize: status.portSize,
-        osdsIs: status.osdsIs,
-        inletPipingFound: status.inletPipingFound,
-        inletPipingDistance: status.inletPipingDistance,
-        outletPipingFound: status.outletPipingFound,
-        outletPipingDistance: status.outletPipingDistance,
-        liquid: status.liquid,
-        liquidDistanceToFinishedGrade: status.liquidDistanceToFinishedGrade,
-        osdsLocation: status.osdsLocation,
-        osdsLocationOtherValue: status.osdsLocationOtherValue,
-        rightOfEntryIssue: status.rightOfEntryIssue,
-        rightOfEntryIssueOtherValue: status.rightOfEntryIssueOtherValue,
+        ...status,
       });
       setImages(status.images);
     }
@@ -344,10 +291,8 @@ function StatusModal() {
               <div className={classes.inputDiv}>
                 <OsdsIs
                   postData={postData}
+                  setPostData={setPostData}
                   classes={classes}
-                  osdsIs={osdsIs}
-                  setOsdsIs={setOsdsIs}
-                  removeElement={removeElement}
                 />
               </div>
 
@@ -375,23 +320,11 @@ function StatusModal() {
                 />
               </div>
               <div className={classes.inputDiv}>
-                <OsdsLocation
-                  postData={postData}
-                  setPostData={setPostData}
-                  osdsLocation={osdsLocation}
-                  setOsdsLocation={setOsdsLocation}
-                  removeElement={removeElement}
-                />
+                <OsdsLocation postData={postData} setPostData={setPostData} />
               </div>
 
               <div className={classes.inputDiv}>
-                <RightOfEntry
-                  postData={postData}
-                  setPostData={setPostData}
-                  rightOfEntryIssue={rightOfEntryIssue}
-                  setRightOfEntryIssue={setRightOfEntryIssue}
-                  removeElement={removeElement}
-                />
+                <RightOfEntry postData={postData} setPostData={setPostData} />
               </div>
 
               <Box display="flex" mt={1} mb={3} bgcolor="background.paper">
