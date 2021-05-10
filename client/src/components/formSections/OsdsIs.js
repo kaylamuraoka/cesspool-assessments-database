@@ -10,7 +10,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const OsdsIs = ({ postData, classes, osdsIs, setOsdsIs, removeElement }) => {
+const OsdsIs = ({ postData, setPostData, classes }) => {
   const { alert } = useSelector((state) => state);
 
   return (
@@ -40,17 +40,12 @@ const OsdsIs = ({ postData, classes, osdsIs, setOsdsIs, removeElement }) => {
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsIs.dry}
+                  checked={postData.osdsIs.dry}
                   onChange={(e) => {
-                    setOsdsIs({
-                      ...osdsIs,
-                      dry: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsIs.push("Dry");
-                    } else {
-                      removeElement(postData.osdsIs, "Dry");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsIs: { ...postData.osdsIs, dry: e.target.checked },
+                    }));
                   }}
                   name="dry"
                 />
@@ -62,40 +57,35 @@ const OsdsIs = ({ postData, classes, osdsIs, setOsdsIs, removeElement }) => {
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsIs.wet_water_scum}
+                  checked={postData.osdsIs.wet_water_scum}
                   onChange={(e) => {
-                    setOsdsIs({
-                      ...osdsIs,
-                      wet_water_scum: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsIs.push("Wet (water/scum)");
-                    } else {
-                      removeElement(postData.osdsIs, "Wet (water/scum)");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsIs: {
+                        ...postData.osdsIs,
+                        wet_water_scum: e.target.checked,
+                      },
+                    }));
                   }}
                   name="wet_water_scum"
                 />
               }
               label="Wet (water/scum)"
-              style={{}}
             />
             <FormControlLabel
               control={
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsIs.wet_sludge}
+                  checked={postData.osdsIs.wet_sludge}
                   onChange={(e) => {
-                    setOsdsIs({
-                      ...osdsIs,
-                      wet_sludge: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsIs.push("Wet (sludge)");
-                    } else {
-                      removeElement(postData.osdsIs, "Wet (sludge)");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsIs: {
+                        ...postData.osdsIs,
+                        wet_sludge: e.target.checked,
+                      },
+                    }));
                   }}
                   name="wet_sludge"
                 />
@@ -107,17 +97,15 @@ const OsdsIs = ({ postData, classes, osdsIs, setOsdsIs, removeElement }) => {
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsIs.odorous}
+                  checked={postData.osdsIs.odorous}
                   onChange={(e) => {
-                    setOsdsIs({
-                      ...osdsIs,
-                      odorous: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsIs.push("Odorous");
-                    } else {
-                      removeElement(postData.osdsIs, "Odorous");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsIs: {
+                        ...postData.osdsIs,
+                        odorous: e.target.checked,
+                      },
+                    }));
                   }}
                   name="odorous"
                 />
@@ -129,17 +117,15 @@ const OsdsIs = ({ postData, classes, osdsIs, setOsdsIs, removeElement }) => {
                 <Checkbox
                   size="small"
                   color="primary"
-                  checked={osdsIs.unknown}
+                  checked={postData.osdsIs.unknown}
                   onChange={(e) => {
-                    setOsdsIs({
-                      ...osdsIs,
-                      unknown: e.target.checked,
-                    });
-                    if (e.target.checked) {
-                      postData.osdsIs.push("Unknown");
-                    } else {
-                      removeElement(postData.osdsIs, "Unknown");
-                    }
+                    setPostData((postData) => ({
+                      ...postData,
+                      osdsIs: {
+                        ...postData.osdsIs,
+                        unknown: e.target.checked,
+                      },
+                    }));
                   }}
                   name="unknown"
                 />
