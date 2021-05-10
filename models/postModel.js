@@ -41,16 +41,26 @@ const postSchema = new mongoose.Schema(
       default: "",
     },
     osdsIs: {
-      type: Array,
-      default: [
-        {
-          dry: false,
-          wet_water_scum: false,
-          wet_sludge: false,
-          odorous: false,
-          unknown: false,
-        },
-      ],
+      dry: {
+        type: Boolean,
+        default: false,
+      },
+      wet_water_scum: {
+        type: Boolean,
+        default: false,
+      },
+      wet_sludge: {
+        type: Boolean,
+        default: false,
+      },
+      odorous: {
+        type: Boolean,
+        default: false,
+      },
+      unknown: {
+        type: Boolean,
+        default: false,
+      },
     },
     inletPipingFound: {
       type: String,
@@ -79,20 +89,52 @@ const postSchema = new mongoose.Schema(
       default: "",
     },
     osdsLocation: {
-      type: Array,
-      default: [],
-    },
-    osdsLocationOtherValue: {
-      type: String,
-      default: "",
+      frontyard: {
+        type: Boolean,
+        default: false,
+      },
+      backyard: {
+        type: Boolean,
+        default: false,
+      },
+      nextToBldg: {
+        type: Boolean,
+        default: false,
+      },
+      other: {
+        type: Boolean,
+        default: false,
+      },
+      otherValue: {
+        type: String,
+        default: "",
+      },
     },
     rightOfEntryIssue: {
-      type: Array,
-      default: [],
-    },
-    rightOfEntryIssueOtherValue: {
-      type: String,
-      default: "",
+      none: {
+        type: Boolean,
+        default: false,
+      },
+      fenced: {
+        type: Boolean,
+        default: false,
+      },
+      gated: {
+        type: Boolean,
+        default: false,
+      },
+      dogs: {
+        type: Boolean,
+        default: false,
+      },
+      other: {
+        type: Boolean,
+        default: false,
+      },
+      otherValue: {
+        type: String,
+        default: "",
+      },
     },
     images: {
       type: Array,
