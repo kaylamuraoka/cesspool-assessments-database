@@ -71,9 +71,7 @@ const postController = {
         liquid,
         liquidDistanceToFinishedGrade,
         osdsLocation,
-        osdsLocationOtherValue,
         rightOfEntryIssue,
-        rightOfEntryIssueOtherValue,
         images,
       } = req.body;
 
@@ -106,7 +104,7 @@ const postController = {
       // return res.status(400).json({msg: ""})
 
       const newPost = new Posts({
-        dateTime: dateTime,
+        dateTime,
         weather,
         weatherOtherValue,
         lotOccupied,
@@ -123,9 +121,7 @@ const postController = {
         liquid,
         liquidDistanceToFinishedGrade,
         osdsLocation,
-        osdsLocationOtherValue,
         rightOfEntryIssue,
-        rightOfEntryIssueOtherValue,
         images,
         user: req.user._id,
       });
@@ -188,9 +184,7 @@ const postController = {
         liquid,
         liquidDistanceToFinishedGrade,
         osdsLocation,
-        osdsLocationOtherValue,
         rightOfEntryIssue,
-        rightOfEntryIssueOtherValue,
         images,
       } = req.body;
 
@@ -214,9 +208,7 @@ const postController = {
           liquid,
           liquidDistanceToFinishedGrade,
           osdsLocation,
-          osdsLocationOtherValue,
           rightOfEntryIssue,
-          rightOfEntryIssueOtherValue,
           images,
         }
       )
@@ -250,9 +242,7 @@ const postController = {
           liquid,
           liquidDistanceToFinishedGrade,
           osdsLocation,
-          osdsLocationOtherValue,
           rightOfEntryIssue,
-          rightOfEntryIssueOtherValue,
           images,
         },
       });
@@ -442,6 +432,26 @@ const postController = {
         savePosts,
         result: savePosts.length,
       });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getAllPosts: async (req, res) => {
+    try {
+      const features = new APIfeatures(Posts.find({}), req.query).paginating();
+
+      const posts = await features.query
+        .sort("-createdAt")
+        .populate("user likes", "avatar name email followers")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "user likes",
+            select: "-password",
+          },
+        });
+
+      res.json({ msg: "Success!", result: posts.length, posts });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
