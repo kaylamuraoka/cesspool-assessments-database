@@ -106,6 +106,22 @@ function StatusModal() {
       other: false,
       otherValue: "",
     },
+    propertyLocation: "",
+    osdsInService: "",
+    numOfBedrooms: "",
+    numOfOsdsUnits: "",
+    totalVolume: "",
+    solidPumpInterval: "",
+    solidPumpIntervalOtherValue: "",
+    overflowPipeToSewer: "",
+    osdsType: "",
+    osdsTypeOtherValue: "",
+    bestDayTimeForVisit: "",
+    contactName: "",
+    contactPhone: "",
+    email: "",
+    mailingAddress: "",
+    additionalNotes: "",
   };
 
   const [images, setImages] = useState([]);
