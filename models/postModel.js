@@ -167,6 +167,69 @@ const postSchema = new mongoose.Schema(
         default: "",
       },
     },
+    propertyLocation: {
+      type: String,
+      enum: ["OSDS", "Public Sewer", "Unknown"],
+      required: true,
+    },
+    osdsInService: {
+      type: String,
+      enum: ["Yes", "No (Abandoned)", "Unknown"],
+      required: true,
+    },
+    numOfBedrooms: {
+      type: Number,
+    },
+    numOfOsdsUnits: {
+      type: Number,
+    },
+    totalVolume: {
+      type: Number,
+    },
+    solidPumpInterval: {
+      type: String,
+      enum: ["<6", "6-9", "12-24", ">24", "Other", "Unknown"],
+    },
+    solidPumpIntervalOtherValue: {
+      type: String,
+      default: "",
+    },
+    overflowPipeToSewer: {
+      type: String,
+      enum: ["Yes", "No", "Unknown"],
+    },
+    osdsType: {
+      type: String,
+      enum: ["Cesspool", "Septic Tank", "Aerobic Unit", "Other", "Unknown"],
+    },
+    osdsTypeOtherValue: {
+      type: String,
+      default: "",
+    },
+    bestDayTimeForVisit: {
+      type: String,
+      default: "",
+    },
+    contactName: {
+      type: String,
+      default: "",
+    },
+    contactPhone: {
+      type: String,
+      default: "",
+    },
+    email: {
+      type: String,
+      default: "",
+    },
+    mailingAddress: {
+      type: String,
+      default: "",
+    },
+    additionalNotes: {
+      type: String,
+      default: "",
+    },
     images: {
       type: Array,
       default: [],
