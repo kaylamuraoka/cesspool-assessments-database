@@ -1,5 +1,6 @@
 import React from "react";
 import PostTable from "../components/tables/PostTable";
+import DataTable from "../components/tables/DataTable";
 
 // Material UI Components
 import Container from "@material-ui/core/Container";
@@ -29,6 +30,11 @@ const Reports = () => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <PostTable />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <DataTable />
           </Paper>
         </Grid>
 

@@ -6,6 +6,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    recordNum: {
+      type: Number,
+      required: true,
+    },
     weather: {
       type: String,
       required: true,

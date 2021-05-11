@@ -43,7 +43,7 @@ class APIfeatures {
 
   paginating() {
     const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 9;
+    const limit = this.queryString.limit * 1 || 10;
     const skip = (page - 1) * limit;
     this.query = this.query.skip(skip).limit(limit);
     return this;
@@ -55,6 +55,7 @@ const postController = {
     try {
       const {
         dateTime,
+        recordNum,
         weather,
         weatherOtherValue,
         lotOccupied,
@@ -105,6 +106,7 @@ const postController = {
 
       const newPost = new Posts({
         dateTime,
+        recordNum,
         weather,
         weatherOtherValue,
         lotOccupied,
@@ -168,6 +170,7 @@ const postController = {
     try {
       const {
         dateTime,
+        recordNum,
         weather,
         weatherOtherValue,
         lotOccupied,
@@ -192,6 +195,7 @@ const postController = {
         { _id: req.params.id },
         {
           dateTime,
+          recordNum,
           weather,
           weatherOtherValue,
           lotOccupied,
@@ -226,6 +230,7 @@ const postController = {
         newPost: {
           ...post._doc,
           dateTime,
+          recordNum,
           weather,
           weatherOtherValue,
           lotOccupied,
@@ -438,7 +443,9 @@ const postController = {
   },
   getAllPosts: async (req, res) => {
     try {
-      const features = new APIfeatures(Posts.find({}), req.query).paginating();
+      const features = new APIfeatures(Posts.find(), req.query)
+        .filtering()
+        .paginating();
 
       const posts = await features.query
         .sort("-createdAt")
@@ -451,7 +458,12 @@ const postController = {
           },
         });
 
-      res.json({ msg: "Success!", result: posts.length, posts });
+      res.json({
+        msg: "Success!",
+        result: posts.length,
+        total: totalRecords,
+        posts,
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

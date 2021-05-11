@@ -28,6 +28,10 @@ const PostBody = ({ post }) => {
           <Moment>{post.dateTime}</Moment>
         </p>
         <p>
+          <strong>Record No: </strong>
+          {post.recordNum}
+        </p>
+        <p>
           <strong>Weather: </strong>
           {post.weather !== "Other" ? (
             <span>{post.weather}</span>
@@ -105,9 +109,17 @@ const PostBody = ({ post }) => {
           {post.outletPipingDistance}
         </p>
         <p>
-          If <strong>{post.liquid}</strong> found in OSDS, its distance to
-          finished grade: {""}
-          <strong> {post.liquidDistanceToFinishedGrade} ft</strong>
+          {post.liquid && (
+            <span>
+              <strong>{post.liquid}</strong> found in OSDS.
+            </span>
+          )}
+          {post.liquidDistanceToFinishedGrade && (
+            <p>
+              Its distance to finished grade: {""}{" "}
+              <strong> {post.liquidDistanceToFinishedGrade} ft</strong>
+            </p>
+          )}
         </p>
         <p>
           <strong>OSDS Location: </strong>

@@ -281,14 +281,14 @@ export const unsavePost = ({ post, auth }) => async (dispatch) => {
 };
 
 // Newly added to get all posts
-export const getAllPosts = (token) => async (dispatch) => {
+export const getAllPosts = (token, page, limit) => async (dispatch) => {
   try {
     dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
-    const res = await getDataAPI("getAllPosts", token);
+    const res = await getDataAPI(`getAllPosts?limit=${page * limit}`, token);
 
     dispatch({
       type: POST_TYPES.GET_ALL_POSTS,
-      payload: { ...res.data, page: 2 },
+      payload: { ...res.data, page: page },
     });
 
     dispatch({ type: POST_TYPES.LOADING_POST, payload: false });

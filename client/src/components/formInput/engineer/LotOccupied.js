@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { weatherOptions } from "../../utils/formData";
+import { lotOccupiedOptions } from "../../../utils/formData";
 
 // Material UI Components
 import Box from "@material-ui/core/Box";
@@ -12,35 +12,35 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
-const Weather = ({ postData, setPostData, classes, handleChangeInput }) => {
+const LotOccupied = ({ postData, setPostData, classes, handleChangeInput }) => {
   const { alert } = useSelector((state) => state);
 
   return (
     <>
       <Box display="flex" flexDirection="row" p={1} bgcolor="grey.200">
-        <Box bgcolor="grey.200" style={{ marginTop: 18 }}>
-          <FormLabel component="legend">Weather:</FormLabel>
+        <Box bgcolor="grey.200" style={{ marginTop: 18, width: 155 }}>
+          <FormLabel component="legend">Lot Occupied?</FormLabel>
         </Box>
         <Box>
           <FormControl
             variant="outlined"
             className={classes.formControl}
             size="small"
-            error={alert.weather ? true : false}
+            error={alert.lotOccupied ? true : false}
           >
             <RadioGroup
               row
-              name="weather"
-              value={postData.weather}
+              name="lotOccupied"
+              value={postData.lotOccupied}
               onChange={(e) => {
                 setPostData({
                   ...postData,
-                  weather: e.target.value,
-                  weatherOtherValue: "",
+                  lotOccupied: e.target.value,
+                  lotOccupiedOtherValue: "",
                 });
               }}
             >
-              {weatherOptions.map((option) => (
+              {lotOccupiedOptions.map((option) => (
                 <FormControlLabel
                   key={option}
                   value={option}
@@ -58,27 +58,29 @@ const Weather = ({ postData, setPostData, classes, handleChangeInput }) => {
                 <TextField
                   required
                   onChange={handleChangeInput}
-                  value={postData.weatherOtherValue}
-                  name="weatherOtherValue"
+                  value={postData.lotOccupiedOtherValue}
+                  name="lotOccupiedOtherValue"
                   size="small"
                   style={{ maxWidth: 150 }}
                   helperText={
-                    postData.weather === "Other" &&
-                    postData.weatherOtherValue.length === 0
+                    postData.lotOccupied === "Other" &&
+                    postData.lotOccupiedOtherValue.length === 0
                       ? "Please provide a value."
                       : "Other value"
                   }
                   error={
-                    postData.weather === "Other" &&
-                    postData.weatherOtherValue.length === 0
+                    postData.lotOccupied === "Other" &&
+                    postData.lotOccupiedOtherValue.length === 0
                       ? true
                       : false
                   }
-                  disabled={postData.weather === "Other" ? false : true}
+                  disabled={postData.lotOccupied === "Other" ? false : true}
                 />
               </Box>
             </RadioGroup>
-            {alert.weather && <FormHelperText>{alert.weather}</FormHelperText>}
+            {alert.lotOccupied && (
+              <FormHelperText>{alert.lotOccupied}</FormHelperText>
+            )}
           </FormControl>
         </Box>
       </Box>
@@ -86,4 +88,4 @@ const Weather = ({ postData, setPostData, classes, handleChangeInput }) => {
   );
 };
 
-export default Weather;
+export default LotOccupied;

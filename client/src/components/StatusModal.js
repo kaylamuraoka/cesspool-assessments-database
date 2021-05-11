@@ -24,16 +24,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Badge from "@material-ui/core/Badge";
 import Slide from "@material-ui/core/Slide";
 
-import DateTimePicker from "./formSections/DateTimePicker";
-import WeatherInput from "./formSections/Weather";
-import LotOccupied from "./formSections/LotOccupied";
-import OsdsFound from "./formSections/OsdsFound";
-import OsdsIs from "./formSections/OsdsIs";
-import InletPiping from "./formSections/InletPiping";
-import OutletPiping from "./formSections/OutletPiping";
-import OsdsLocation from "./formSections/OsdsLocation";
-import RightOfEntry from "./formSections/RightOfEntry";
-import DistanceToGrade from "./formSections/DistanceToGrade";
+import OsdsForm from "./form/OsdsForm";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -70,6 +61,7 @@ function StatusModal() {
 
   const initialState = {
     dateTime: currDateTime,
+    recordNum: "",
     weather: "",
     weatherOtherValue: "",
     lotOccupied: "",
@@ -161,7 +153,6 @@ function StatusModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ ...postData });
     // if (images.length === 0)
     //   return dispatch({
     //     type: GLOBALTYPES.ALERT,
@@ -178,10 +169,6 @@ function StatusModal() {
 
     if (tracks) tracks.stop();
     dispatch({ type: GLOBALTYPES.STATUS, payload: false });
-  };
-
-  const handleChangeInput = (e) => {
-    setPostData({ ...postData, [e.target.name]: e.target.value });
   };
 
   const handleCapture = () => {
@@ -258,74 +245,11 @@ function StatusModal() {
           </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <div className={classes.inputDiv}>
-                <DateTimePicker postData={postData} setPostData={setPostData} />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <WeatherInput
-                  postData={postData}
-                  setPostData={setPostData}
-                  classes={classes}
-                  handleChangeInput={handleChangeInput}
-                />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <LotOccupied
-                  postData={postData}
-                  setPostData={setPostData}
-                  classes={classes}
-                  handleChangeInput={handleChangeInput}
-                />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <OsdsFound
-                  postData={postData}
-                  setPostData={setPostData}
-                  classes={classes}
-                />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <OsdsIs
-                  postData={postData}
-                  setPostData={setPostData}
-                  classes={classes}
-                />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <InletPiping
-                  postData={postData}
-                  setPostData={setPostData}
-                  classes={classes}
-                />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <OutletPiping
-                  postData={postData}
-                  setPostData={setPostData}
-                  classes={classes}
-                />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <DistanceToGrade
-                  postData={postData}
-                  setPostData={setPostData}
-                  classes={classes}
-                />
-              </div>
-              <div className={classes.inputDiv}>
-                <OsdsLocation postData={postData} setPostData={setPostData} />
-              </div>
-
-              <div className={classes.inputDiv}>
-                <RightOfEntry postData={postData} setPostData={setPostData} />
-              </div>
+              <OsdsForm
+                postData={postData}
+                setPostData={setPostData}
+                classes={classes}
+              />
 
               <Box display="flex" mt={1} mb={3} bgcolor="background.paper">
                 {stream ? (
@@ -442,24 +366,6 @@ function StatusModal() {
                   </DialogActions>
                 </Dialog>
               )}
-              {/* 
-              <Button
-                variant="contained"
-                color="secondary"
-                size="medium"
-                startIcon={<SaveIcon />}
-                type="submit"
-                disabled={
-                  postData.weather &&
-                  postData.lotOccupied &&
-                  postData.inletPipingFound &&
-                  postData.outletPipingFound
-                    ? false
-                    : true
-                }
-              >
-                Submit
-              </Button> */}
             </Grid>
           </form>
         </Container>
