@@ -10,6 +10,33 @@ const postSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    TMK: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      enum: ["Waianae", "Nanakuli", "Waimanalo"],
+      required: true,
+    },
+    propertyOwner: {
+      type: String,
+    },
+    contactInfo: {
+      type: String,
+    },
+    projectAddress: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    engineer: {
+      type: String,
+    },
+    contractor: {
+      type: String,
+    },
     weather: {
       type: String,
       required: true,
