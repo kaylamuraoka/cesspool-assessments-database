@@ -77,6 +77,14 @@ const DataTable = () => {
             <TableRow>
               <TableCell>Date/Time</TableCell>
               <TableCell>Record No</TableCell>
+              <TableCell>TMK</TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Property Owner</TableCell>
+              <TableCell>Contact Info</TableCell>
+              <TableCell>Project Address</TableCell>
+              <TableCell>City</TableCell>
+              <TableCell>Engineer</TableCell>
+              <TableCell>Contractor</TableCell>
               <TableCell align="right">Weather</TableCell>
               <TableCell align="right">Lot Occupied?</TableCell>
               <TableCell align="right">OSDS Found?</TableCell>
@@ -105,10 +113,16 @@ const DataTable = () => {
                 <TableCell component="th" scope="row">
                   <Moment format="MM-DD-YYYY h:mm:ss">{post.dateTime}</Moment>
                 </TableCell>
-                <TableCell component="th" scope="row">
-                  {post.recordNum}
-                </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell align="right">{post.recordNum}</TableCell>
+                <TableCell align="right">{post.TMK}</TableCell>
+                <TableCell align="right">{post.location}</TableCell>
+                <TableCell align="right">{post.propertyOwner}</TableCell>
+                <TableCell align="right">{post.contactInfo}</TableCell>
+                <TableCell align="right">{post.projectAddress}</TableCell>
+                <TableCell align="right">{post.city}</TableCell>
+                <TableCell align="right">{post.engineer}</TableCell>
+                <TableCell align="right">{post.contractor}</TableCell>
+                <TableCell align="right">
                   {post.weather !== "Other" ? (
                     <span>{post.weather}</span>
                   ) : (

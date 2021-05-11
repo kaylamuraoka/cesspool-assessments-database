@@ -32,6 +32,38 @@ const PostBody = ({ post }) => {
           {post.recordNum}
         </p>
         <p>
+          <strong>TMK: </strong>
+          {post.TMK}
+        </p>
+        <p>
+          <strong>Location: </strong>
+          {post.location}
+        </p>
+        <p>
+          <strong>Property Owner: </strong>
+          {post.propertyOwner}
+        </p>
+        <p>
+          <strong>Contact Info: </strong>
+          {post.contactInfo}
+        </p>
+        <p>
+          <strong>Project Address: </strong>
+          {post.projectAddress}
+        </p>
+        <p>
+          <strong>City: </strong>
+          {post.city}
+        </p>
+        <p>
+          <strong>Engineer: </strong>
+          {post.engineer}
+        </p>
+        <p>
+          <strong>Contractor: </strong>
+          {post.contractor}
+        </p>
+        <p>
           <strong>Weather: </strong>
           {post.weather !== "Other" ? (
             <span>{post.weather}</span>
