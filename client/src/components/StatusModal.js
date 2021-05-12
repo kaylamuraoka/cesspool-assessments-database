@@ -116,7 +116,7 @@ function StatusModal() {
     overflowPipeToSewer: "",
     osdsType: "",
     osdsTypeOtherValue: "",
-    bestDayTimeForVisit: "",
+    bestDayTimeForVisit: currDateTime,
     contactName: "",
     contactPhone: "",
     email: "",
