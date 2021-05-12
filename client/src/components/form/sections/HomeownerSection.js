@@ -10,6 +10,9 @@ import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const HomeownerSection = ({ postData, setPostData, classes }) => {
   const { alert } = useSelector((state) => state);
@@ -126,7 +129,94 @@ const HomeownerSection = ({ postData, setPostData, classes }) => {
         </Box>
       </div>
 
-      <div className={classes.inputDiv}></div>
+      <div className={classes.inputDiv}>
+        <Box display="flex" p={1}>
+          <Box>
+            <Grid container spacing={1} alignItems="flex-end">
+              <Grid item>
+                <Typography variant="subtitle2">Number of Bedrooms:</Typography>
+              </Grid>
+              <Grid item>
+                <TextField
+                  placeholder="0"
+                  type="number"
+                  size="small"
+                  value={postData.numOfBedrooms}
+                  onChange={(e) => {
+                    setPostData({
+                      ...postData,
+                      numOfBedrooms: e.target.value,
+                    });
+                  }}
+                  style={{ width: 40 }}
+                  name="numOfBedrooms"
+                  helperText={alert.numOfBedrooms ? alert.numOfBedrooms : null}
+                  error={alert.numOfBedrooms ? true : false}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box>
+            <Grid container spacing={1} alignItems="flex-end">
+              <Grid item>
+                <Typography variant="subtitle2">
+                  Number of OSDS units:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <TextField
+                  type="number"
+                  onChange={(e) =>
+                    setPostData({
+                      ...postData,
+                      numOfOsdsUnits: e.target.value,
+                    })
+                  }
+                  value={postData.numOfOsdsUnits}
+                  name="numOfOsdsUnits"
+                  placeholder="0"
+                  style={{ width: 40 }}
+                  size="small"
+                  helperText={
+                    alert.numOfOsdsUnits ? alert.numOfOsdsUnits : null
+                  }
+                  error={alert.numOfOsdsUnits ? true : false}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box>
+            <Grid container spacing={1} alignItems="flex-end">
+              <Grid item>
+                <Typography variant="subtitle2">Total volume:</Typography>
+              </Grid>
+              <Grid item>
+                <TextField
+                  type="number"
+                  onChange={(e) =>
+                    setPostData({
+                      ...postData,
+                      totalVolume: e.target.value,
+                    })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">Gal</InputAdornment>
+                    ),
+                  }}
+                  value={postData.totalVolume}
+                  name="totalVolume"
+                  placeholder="0"
+                  style={{ width: 100 }}
+                  size="small"
+                  helperText={alert.totalVolume ? alert.totalVolume : null}
+                  error={alert.totalVolume ? true : false}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </div>
     </>
   );
 };
