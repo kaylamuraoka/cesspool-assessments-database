@@ -217,6 +217,113 @@ const HomeownerSection = ({ postData, setPostData, classes }) => {
           </Box>
         </Box>
       </div>
+
+      <div className={classes.inputDiv}>
+        <Box display="flex" flexDirection="row" p={1} bgcolor="grey.200">
+          <Box bgcolor="grey.200">
+            <FormControl
+              error={alert.solidPumpInterval ? true : false}
+              style={{ width: 323 }}
+            >
+              <FormLabel component="legend" style={{ marginTop: "10px" }}>
+                Solid pumped out every
+                <FormHelperText>Select one</FormHelperText>
+              </FormLabel>
+            </FormControl>
+          </Box>
+          <Box>
+            <FormControl
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+              error={alert.solidPumpInterval ? true : false}
+            >
+              <RadioGroup
+                row
+                name="solidPumpInterval"
+                value={postData.solidPumpInterval}
+                onChange={(e) => {
+                  setPostData({
+                    ...postData,
+                    solidPumpInterval: e.target.value,
+                    solidPumpIntervalOtherValue: "",
+                  });
+                }}
+              >
+                <FormControlLabel
+                  value="<6"
+                  control={<Radio size="small" color="primary" />}
+                  label="<6"
+                />
+                <FormControlLabel
+                  value="6-9"
+                  control={<Radio size="small" color="primary" />}
+                  label="6-9"
+                />
+                <FormControlLabel
+                  value="9-12"
+                  control={<Radio size="small" color="primary" />}
+                  label="9-12"
+                />
+                <FormControlLabel
+                  value="12-24"
+                  control={<Radio size="small" color="primary" />}
+                  label="12-24"
+                />
+                <FormControlLabel
+                  value=">24"
+                  control={<Radio size="small" color="primary" />}
+                  label=">24"
+                />
+                <FormControlLabel
+                  value="Other"
+                  control={<Radio size="small" color="primary" />}
+                  label="Other"
+                />
+                <TextField
+                  onChange={(e) => {
+                    setPostData((postData) => ({
+                      ...postData,
+                      solidPumpIntervalOtherValue: e.target.value,
+                    }));
+                  }}
+                  value={postData.solidPumpIntervalOtherValue}
+                  name="solidPumpIntervalOtherValue"
+                  size="small"
+                  style={{
+                    marginLeft: 0,
+                    paddingTop: 12,
+                    maxWidth: 150,
+                  }}
+                  helperText={
+                    postData.solidPumpInterval === "Other" &&
+                    postData.solidPumpIntervalOtherValue.length === 0
+                      ? "Please provide a value."
+                      : "Other value"
+                  }
+                  error={
+                    postData.solidPumpInterval === "Other" &&
+                    postData.solidPumpIntervalOtherValue.length === 0
+                      ? true
+                      : false
+                  }
+                  disabled={
+                    postData.solidPumpInterval === "Other" ? false : true
+                  }
+                />
+                <FormControlLabel
+                  value="Unknown"
+                  control={<Radio size="small" color="primary" />}
+                  label="Unknown"
+                />
+              </RadioGroup>
+              {alert.solidPumpInterval && (
+                <FormHelperText>{alert.solidPumpInterval}</FormHelperText>
+              )}
+            </FormControl>
+          </Box>
+        </Box>
+      </div>
     </>
   );
 };
