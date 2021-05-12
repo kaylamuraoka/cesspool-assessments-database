@@ -18,8 +18,13 @@ const LotOccupied = ({ postData, setPostData, classes, handleChangeInput }) => {
   return (
     <>
       <Box display="flex" flexDirection="row" p={1} bgcolor="grey.200">
-        <Box bgcolor="grey.200" style={{ marginTop: 18, width: 155 }}>
-          <FormLabel component="legend">Lot Occupied?</FormLabel>
+        <Box bgcolor="grey.200" style={{ width: 155 }}>
+          <FormControl error={alert.LotOccupied ? true : false}>
+            <FormLabel component="legend" style={{ marginTop: "10px" }}>
+              Lot Occupied?
+              <FormHelperText>Select one</FormHelperText>
+            </FormLabel>
+          </FormControl>
         </Box>
         <Box>
           <FormControl
