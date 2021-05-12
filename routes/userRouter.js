@@ -15,6 +15,8 @@ router.patch("/user/:id/unfollow", auth, userController.unfollow);
 
 router.get("/suggestionsUser", auth, userController.suggestionsUser);
 
+router.get("/users/all", auth, userController.getAllUsersInfo);
+
 // old routes
 router.get("/info", auth, userController.getUserInfo);
 
@@ -23,7 +25,6 @@ router.delete("/delete_account", auth, userController.deleteAccount);
 router.patch("/update", auth, userController.updateUser2);
 
 // Admin only routes
-router.get("/admin/all_info", auth, authAdmin, userController.getAllUsersInfo);
 
 router.patch(
   "/admin/update_role/:id",

@@ -168,6 +168,19 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getAllUsersInfo: async (req, res) => {
+    try {
+      const users = await Users.find().select("-password");
+
+      res.json({
+        users,
+        total: users.length,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
   deleteAccount: async (req, res) => {
     try {
       await Users.findByIdAndDelete(req.user.id);
@@ -210,16 +223,7 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
-  getAllUsersInfo: async (req, res) => {
-    try {
-      console.log(req.user);
-      const users = await Users.find().select("-password");
 
-      res.json(users);
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
   updateUsersRole: async (req, res) => {
     try {
       const { role } = req.body;
