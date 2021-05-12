@@ -295,6 +295,11 @@ const HomeownerSection = ({ postData, setPostData, classes }) => {
                     paddingTop: 12,
                     maxWidth: 150,
                   }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">(month)</InputAdornment>
+                    ),
+                  }}
                   helperText={
                     postData.solidPumpInterval === "Other" &&
                     postData.solidPumpIntervalOtherValue.length === 0
@@ -677,6 +682,31 @@ const HomeownerSection = ({ postData, setPostData, classes }) => {
               </Grid>
             </Grid>
           </Box>
+        </Box>
+      </div>
+
+      <div className={classes.inputDiv}>
+        <Box>
+          <Grid container spacing={1} alignItems="flex-end">
+            <Grid item>
+              <Typography variant="subtitle1">Mailing Address:</Typography>
+            </Grid>
+            <Grid item>
+              <TextField
+                type="text"
+                value={postData.mailingAddress}
+                onChange={(e) => {
+                  setPostData({
+                    ...postData,
+                    mailingAddress: e.target.value,
+                  });
+                }}
+                name="mailingAddress"
+                helperText={alert.mailingAddress ? alert.mailingAddress : null}
+                error={alert.mailingAddress ? true : false}
+              />
+            </Grid>
+          </Grid>
         </Box>
       </div>
     </>
