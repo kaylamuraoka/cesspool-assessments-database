@@ -11,7 +11,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -268,129 +267,142 @@ function StatusModal() {
             Please fill out the following form in as much detail as possible:
           </Typography>
           <form onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-              <OsdsForm
-                postData={postData}
-                setPostData={setPostData}
-                classes={classes}
-              />
+            <OsdsForm
+              postData={postData}
+              setPostData={setPostData}
+              classes={classes}
+            />
 
-              <Box display="flex" mt={1} mb={3} bgcolor="background.paper">
-                {stream ? (
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{
+                textAlign: "center",
+                fontWeight: "400",
+                paddingLeft: 20,
+                paddingRight: 20,
+              }}
+            >
+              PLEASE ATTACH A PHOTO OF THE TOP OF OSDS WITH COVER REMOVED. ALSO
+              TAKE PHOTOS TO SHOW AN AREA VIEW OF THE OSDS, FRONT VIEW OF THE
+              PROPERTY AND THE STREET ADDRESS VIEW
+            </Typography>
+
+            <Box display="flex" mt={1} mb={3} bgcolor="background.paper">
+              {stream ? (
+                <label htmlFor="icon-button-file">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload picture"
+                    component="span"
+                    onClick={handleCapture}
+                  >
+                    <PhotoCameraIcon />
+                  </IconButton>
+                </label>
+              ) : (
+                <>
                   <label htmlFor="icon-button-file">
                     <IconButton
                       color="primary"
                       aria-label="upload picture"
                       component="span"
-                      onClick={handleCapture}
+                      onClick={handleStream}
                     >
                       <PhotoCameraIcon />
                     </IconButton>
                   </label>
-                ) : (
-                  <>
-                    <label htmlFor="icon-button-file">
-                      <IconButton
+                  <span style={{ marginLeft: "8px", marginTop: "65px" }}>
+                    <input
+                      type="file"
+                      name="file"
+                      id="file"
+                      multiple
+                      accept="image/*"
+                      className={classes.input}
+                      onChange={handleChangeImages}
+                    />
+                    <label htmlFor="file">
+                      <Button
+                        variant="contained"
                         color="primary"
                         aria-label="upload picture"
+                        startIcon={<CloudUploadIcon />}
                         component="span"
-                        onClick={handleStream}
-                      >
-                        <PhotoCameraIcon />
-                      </IconButton>
-                    </label>
-                    <span style={{ marginLeft: "8px", marginTop: "65px" }}>
-                      <input
-                        type="file"
-                        name="file"
-                        id="file"
-                        multiple
-                        accept="image/*"
-                        className={classes.input}
-                        onChange={handleChangeImages}
-                      />
-                      <label htmlFor="file">
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          aria-label="upload picture"
-                          startIcon={<CloudUploadIcon />}
-                          component="span"
-                          size="small"
-                        >
-                          {images.length === 0 ? "Upload Images" : "Add Image"}
-                        </Button>
-                      </label>
-                    </span>
-                  </>
-                )}
-              </Box>
-              {images.map((image, index) => (
-                <div key={index} style={{ padding: "15px" }}>
-                  <Badge
-                    badgeContent={
-                      <IconButton
-                        aria-label="close"
                         size="small"
-                        style={{ height: "100%" }}
-                        onClick={() => deleteImages(index)}
                       >
-                        <CloseIcon fontSize="default" color="action" />
-                      </IconButton>
-                    }
-                    color="error"
-                  >
-                    <img
-                      src={
-                        image.camera
-                          ? image.camera
-                          : image.url
-                          ? image.url
-                          : URL.createObjectURL(image)
-                      }
-                      alt="images"
-                      style={{
-                        maxHeight: "150px",
-                        objectFit: "contain",
-                        width: "auto",
-                        overflowY: "auto",
-                      }}
-                    />
-                  </Badge>
-                </div>
-              ))}
-              {stream && (
-                <Dialog open={stream} keepMounted onClose={handleStopStream}>
-                  <IconButton
-                    aria-label="close"
-                    onClick={handleStopStream}
-                    style={{ position: "absolute", right: "5px", top: "3px" }}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <DialogContent style={{ padding: "50px" }}>
-                    <div className="stream">
-                      <video
-                        autoplay
-                        muted
-                        ref={videoRef}
-                        style={{ width: "100%", height: "100%" }}
-                      />
-
-                      <canvas ref={refCanvas} style={{ display: "none" }} />
-                    </div>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleStopStream} color="primary">
-                      Cancel
-                    </Button>
-                    <Button onClick={handleCapture} color="primary">
-                      Capture
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+                        {images.length === 0 ? "Upload Images" : "Add Image"}
+                      </Button>
+                    </label>
+                  </span>
+                </>
               )}
-            </Grid>
+            </Box>
+            {images.map((image, index) => (
+              <div key={index} style={{ padding: "15px" }}>
+                <Badge
+                  badgeContent={
+                    <IconButton
+                      aria-label="close"
+                      size="small"
+                      style={{ height: "100%" }}
+                      onClick={() => deleteImages(index)}
+                    >
+                      <CloseIcon fontSize="default" color="action" />
+                    </IconButton>
+                  }
+                  color="error"
+                >
+                  <img
+                    src={
+                      image.camera
+                        ? image.camera
+                        : image.url
+                        ? image.url
+                        : URL.createObjectURL(image)
+                    }
+                    alt="images"
+                    style={{
+                      maxHeight: "150px",
+                      objectFit: "contain",
+                      width: "auto",
+                      overflowY: "auto",
+                    }}
+                  />
+                </Badge>
+              </div>
+            ))}
+            {stream && (
+              <Dialog open={stream} keepMounted onClose={handleStopStream}>
+                <IconButton
+                  aria-label="close"
+                  onClick={handleStopStream}
+                  style={{ position: "absolute", right: "5px", top: "3px" }}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <DialogContent style={{ padding: "50px" }}>
+                  <div className="stream">
+                    <video
+                      autoplay
+                      muted
+                      ref={videoRef}
+                      style={{ width: "100%", height: "100%" }}
+                    />
+
+                    <canvas ref={refCanvas} style={{ display: "none" }} />
+                  </div>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleStopStream} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleCapture} color="primary">
+                    Capture
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            )}
           </form>
         </Container>
       </DialogContent>
