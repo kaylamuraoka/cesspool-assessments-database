@@ -54,6 +54,7 @@ const DataTable = () => {
 
     const res = await getDataAPI(`posts?limit=${page * limit}`, auth.token);
     console.log(res);
+
     // if (auth.token) {
     //   dispatch(getAllPosts(auth.token, page, limit));
     // }
@@ -96,13 +97,27 @@ const DataTable = () => {
               <TableCell align="right">
                 Distance to finished ground&nbsp;(ft)
               </TableCell>
-              <TableCell align="right">Outlet Piping Found?</TableCell>
-              <TableCell align="right">
-                Distance to finished ground&nbsp;(ft)
+              <TableCell>Outlet Piping Found?</TableCell>
+              <TableCell>Distance to finished ground&nbsp;(ft)</TableCell>
+              <TableCell>Sentence&nbsp;(ft)</TableCell>
+              <TableCell>OSDS Location</TableCell>
+              <TableCell>Right of Entry Issue</TableCell>
+              <TableCell>Property is on...</TableCell>
+              <TableCell>OSDS is still in Service?</TableCell>
+              <TableCell>Number of Bedrooms</TableCell>
+              <TableCell>Number of OSDS Units</TableCell>
+              <TableCell>Total Volume</TableCell>
+              <TableCell>Solids pumped out every</TableCell>
+              <TableCell>
+                Does the OSDS unit have an overflow pipe to public sewer?
               </TableCell>
-              <TableCell align="right">Sentence&nbsp;(ft)</TableCell>
-              <TableCell align="right">OSDS Location</TableCell>
-              <TableCell align="right">Right of Entry Issue</TableCell>
+              <TableCell>OSDS Type</TableCell>
+              <TableCell>Best Day/Time for Future Visit</TableCell>
+              <TableCell>Contact Name</TableCell>
+              <TableCell>Contact Phone</TableCell>
+              <TableCell>Contact Email</TableCell>
+              <TableCell>Mailing Address</TableCell>
+              <TableCell>Additional Notes</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -220,6 +235,37 @@ const DataTable = () => {
                     />
                   )}
                 </TableCell>
+                <TableCell align="right">{post.propertyLocation}</TableCell>
+                <TableCell align="right">{post.osdsInService}</TableCell>
+                <TableCell align="right">{post.numOfBedrooms}</TableCell>
+                <TableCell align="right">{post.numOfOsdsUnits}</TableCell>
+                <TableCell align="right">{post.totalVolume}</TableCell>
+                <TableCell align="right">
+                  {post.solidPumpInterval !== "Other" ? (
+                    <span>{post.solidPumpInterval}</span>
+                  ) : (
+                    <span>
+                      {post.solidPumpInterval}:{" "}
+                      {post.solidPumpIntervalOtherValue}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell align="right">{post.overflowPipeToSewer}</TableCell>
+                <TableCell align="right">
+                  {post.osdsType !== "Other" ? (
+                    <span>{post.osdsType}</span>
+                  ) : (
+                    <span>
+                      {post.osdsType}: {post.osdsTypeOtherValue}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell align="right">{post.bestDayTimeForVisit}</TableCell>
+                <TableCell align="right">{post.contactName}</TableCell>
+                <TableCell align="right">{post.contactPhone}</TableCell>
+                <TableCell align="right">{post.email}</TableCell>
+                <TableCell align="right">{post.mailingAddress}</TableCell>
+                <TableCell align="right">{post.additionalNotes}</TableCell>
               </TableRow>
             ))}
           </TableBody>
