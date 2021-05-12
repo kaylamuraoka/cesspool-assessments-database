@@ -3,6 +3,7 @@ import React from "react";
 import HeaderSection from "./sections/HeaderSection";
 import EngineerSection from "./sections/EngineerSection";
 import HomeownerSection from "./sections/HomeownerSection";
+import Typography from "@material-ui/core/Typography";
 
 const OsdsForm = ({ postData, setPostData, classes }) => {
   const handleChangeInput = (e) => {
@@ -22,7 +23,14 @@ const OsdsForm = ({ postData, setPostData, classes }) => {
         classes={classes}
         handleChangeInput={handleChangeInput}
       />
-      <HomeownerSection />
+      <Typography variant="subtitle1" gutterBottom align="center">
+        Questions for Homeowner to Answer
+      </Typography>
+      <HomeownerSection
+        postData={postData}
+        setPostData={setPostData}
+        classes={classes}
+      />
     </>
   );
 };
