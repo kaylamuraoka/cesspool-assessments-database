@@ -18,8 +18,13 @@ const Weather = ({ postData, setPostData, classes, handleChangeInput }) => {
   return (
     <>
       <Box display="flex" flexDirection="row" p={1} bgcolor="grey.200">
-        <Box bgcolor="grey.200" style={{ marginTop: 18 }}>
-          <FormLabel component="legend">Weather:</FormLabel>
+        <Box bgcolor="grey.200">
+          <FormControl error={alert.weather ? true : false}>
+            <FormLabel component="legend" style={{ marginTop: "10px" }}>
+              Weather:
+              <FormHelperText>Select one</FormHelperText>
+            </FormLabel>
+          </FormControl>
         </Box>
         <Box>
           <FormControl
