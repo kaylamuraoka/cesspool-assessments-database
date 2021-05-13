@@ -11,6 +11,8 @@ const appointmentSchema = new mongoose.Schema(
     },
     type: {
       type: String,
+      enum: ["Booked", "Available"],
+      default: "Available",
     },
     startDateTime: {
       type: Date,
