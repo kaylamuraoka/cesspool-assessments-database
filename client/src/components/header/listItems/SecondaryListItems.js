@@ -10,6 +10,8 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import { makeStyles } from "@material-ui/core/styles";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 
 const useStyles = makeStyles((theme) => ({
   nested: {
@@ -21,66 +23,108 @@ const SecondaryListItems = () => {
   const classes = useStyles();
   const { pathname } = useLocation();
 
-  const [open, setOpen] = useState(true);
+  const [openReports, setOpenReports] = useState(true);
+  const [openCalendar, setOpenCalendar] = useState(true);
 
   return (
-    <List
-      component="nav"
-      subheader={
-        <ListSubheader component="div" inset>
-          Saved Reports
-        </ListSubheader>
-      }
-    >
-      <ListItem button component="a" onClick={() => setOpen(!open)}>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Saved Reports" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
+    <>
+      <List
+        component="nav"
+        subheader={
+          <ListSubheader component="div" inset>
+            Survey Data
+          </ListSubheader>
+        }
+      >
+        <ListItem
+          button
+          component="a"
+          onClick={() => setOpenReports(!openReports)}
+        >
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Saved Reports" />
+          {openReports ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
 
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem
-            button
-            component="a"
-            href="/report1"
-            selected={pathname === "/report1" ? true : false}
-            className={classes.nested}
-          >
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Current month" />
-          </ListItem>
-          <ListItem
-            button
-            component="a"
-            href="/report2"
-            selected={pathname === "/report2" ? true : false}
-            className={classes.nested}
-          >
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Last quarter" />
-          </ListItem>
-          <ListItem
-            button
-            component="a"
-            href="/report3"
-            selected={pathname === "/report3" ? true : false}
-            className={classes.nested}
-          >
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Year-end sale" />
-          </ListItem>
-        </List>
-      </Collapse>
-    </List>
+        <Collapse in={openReports} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem
+              button
+              component="a"
+              href="/report1"
+              selected={pathname === "/report1" ? true : false}
+              className={classes.nested}
+            >
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Current month" />
+            </ListItem>
+            <ListItem
+              button
+              component="a"
+              href="/report2"
+              selected={pathname === "/report2" ? true : false}
+              className={classes.nested}
+            >
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Last quarter" />
+            </ListItem>
+            <ListItem
+              button
+              component="a"
+              href="/report3"
+              selected={pathname === "/report3" ? true : false}
+              className={classes.nested}
+            >
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Year-end sale" />
+            </ListItem>
+          </List>
+        </Collapse>
+      </List>
+
+      <List component="nav">
+        <ListItem
+          button
+          component="a"
+          onClick={() => setOpenCalendar(!openCalendar)}
+        >
+          <ListItemIcon>
+            <CalendarTodayIcon />
+          </ListItemIcon>
+          <ListItemText primary="Calendar" />
+          {openCalendar ? (
+            <ExpandLess fontSize="small" />
+          ) : (
+            <ExpandMore fontSize="small" />
+          )}
+        </ListItem>
+
+        <Collapse in={openCalendar} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem
+              button
+              component="a"
+              href="/appointments"
+              selected={pathname === "/appointments" ? true : false}
+              className={classes.nested}
+            >
+              <ListItemIcon>
+                <EventAvailableIcon />
+              </ListItemIcon>
+              <ListItemText primary="Appointments" />
+            </ListItem>
+          </List>
+        </Collapse>
+      </List>
+    </>
   );
 };
 
