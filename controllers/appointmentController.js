@@ -5,7 +5,7 @@ const appointmentController = {
     try {
       const {
         title,
-        description,
+        notes,
         status,
         location,
         startDateTime,
@@ -14,7 +14,7 @@ const appointmentController = {
 
       const newAppointment = new Appointments({
         title,
-        description,
+        notes,
         status,
         location,
         startDateTime,
@@ -74,7 +74,7 @@ const appointmentController = {
     try {
       const {
         title,
-        description,
+        notes,
         status,
         location,
         startDateTime,
@@ -86,7 +86,7 @@ const appointmentController = {
           _id: req.params.id,
           user: req.user._id,
         },
-        { title, description, status, location, startDateTime, endDateTime }
+        { title, notes, status, location, startDateTime, endDateTime }
       );
 
       res.json({ msg: "Updated Appointment!" });
