@@ -22,4 +22,10 @@ router.get(
 
 router.patch("/appointment/:id", auth, appointmentController.updateAppointment);
 
+router.delete(
+  "/appointment/:id",
+  auth,
+  appointmentController.deleteAppointment
+);
+
 module.exports = router;

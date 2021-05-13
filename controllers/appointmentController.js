@@ -85,6 +85,18 @@ const appointmentController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  deleteAppointment: async (req, res) => {
+    try {
+      const appointment = await Appointments.findOneAndDelete({
+        _id: req.params.id,
+        // $or: [{ user: req.user._id }, { postUserId: req.user._id }],
+      });
+
+      res.json({ msg: "Deleted Appointment!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = appointmentController;
