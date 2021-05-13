@@ -20,6 +20,12 @@ router.get(
   appointmentController.getAvailableAppointments
 );
 
+router.get(
+  "/appointment/:id",
+  auth,
+  appointmentController.getAppointmentDetails
+);
+
 router.patch("/appointment/:id", auth, appointmentController.updateAppointment);
 
 router.delete(

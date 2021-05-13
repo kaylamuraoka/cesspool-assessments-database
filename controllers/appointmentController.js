@@ -31,7 +31,10 @@ const appointmentController = {
   },
   getAllAppointments: async (req, res) => {
     try {
-      const appointments = await Appointments.find({});
+      const appointments = await Appointments.find({}).populate(
+        "user likes",
+        "avatar name email followers"
+      );
       res.json({ msg: "Success", results: appointments.length, appointments });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -39,7 +42,9 @@ const appointmentController = {
   },
   getBookedAppointments: async (req, res) => {
     try {
-      const appointments = await Appointments.find({ status: "Booked" });
+      const appointments = await Appointments.find({
+        status: "Booked",
+      }).populate("user likes", "avatar name email followers");
       res.json({ msg: "Success", results: appointments.length, appointments });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -47,7 +52,9 @@ const appointmentController = {
   },
   getAvailableAppointments: async (req, res) => {
     try {
-      const appointments = await Appointments.find({ status: "Available" });
+      const appointments = await Appointments.find({
+        status: "Available",
+      }).populate("user likes", "avatar name email followers");
       res.json({ msg: "Success", results: appointments.length, appointments });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -55,7 +62,9 @@ const appointmentController = {
   },
   getMyAppointments: async (req, res) => {
     try {
-      const appointments = await Appointments.find({ user: req.user._id });
+      const appointments = await Appointments.find({
+        user: req.user._id,
+      }).populate("user likes", "avatar name email followers");
       res.json({ msg: "Success", results: appointments.length, appointments });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -93,6 +102,21 @@ const appointmentController = {
       });
 
       res.json({ msg: "Deleted Appointment!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getAppointmentDetails: async (req, res) => {
+    try {
+      const appointment = await Appointments.findById(req.params.id).populate(
+        "user likes",
+        "avatar name email followers"
+      );
+
+      if (!appointment)
+        return res.status(400).json({ msg: "This event does not exist." });
+
+      res.json({ appointment });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
