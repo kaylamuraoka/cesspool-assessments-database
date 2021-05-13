@@ -9,7 +9,7 @@ const appointmentSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    type: {
+    status: {
       type: String,
       enum: ["Booked", "Available"],
       default: "Available",
