@@ -20,4 +20,6 @@ router.get(
   appointmentController.getAvailableAppointments
 );
 
+router.patch("/appointment/:id", auth, appointmentController.updateAppointment);
+
 module.exports = router;

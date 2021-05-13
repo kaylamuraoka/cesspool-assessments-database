@@ -7,6 +7,7 @@ const appointmentController = {
         title,
         description,
         status,
+        location,
         startDateTime,
         endDateTime,
       } = req.body;
@@ -15,6 +16,7 @@ const appointmentController = {
         title,
         description,
         status,
+        location,
         startDateTime,
         endDateTime,
         user: req.user._id,
@@ -55,6 +57,30 @@ const appointmentController = {
     try {
       const appointments = await Appointments.find({ user: req.user._id });
       res.json({ msg: "Success", results: appointments.length, appointments });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  updateAppointment: async (req, res) => {
+    try {
+      const {
+        title,
+        description,
+        status,
+        location,
+        startDateTime,
+        endDateTime,
+      } = req.body;
+
+      await Appointments.findOneAndUpdate(
+        {
+          _id: req.params.id,
+          user: req.user._id,
+        },
+        { title, description, status, location, startDateTime, endDateTime }
+      );
+
+      res.json({ msg: "Updated Appointment!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
