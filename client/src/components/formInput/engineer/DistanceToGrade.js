@@ -15,11 +15,7 @@ const DistanceToGrade = ({ postData, setPostData, classes }) => {
   return (
     <Box display="flex" flexDirection="row" p={1} bgcolor="grey.200">
       <Box bgcolor="grey.200">
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          size="small"
-        >
+        <FormControl className={classes.formControl} size="small">
           <span>
             If
             <Select
@@ -32,10 +28,12 @@ const DistanceToGrade = ({ postData, setPostData, classes }) => {
                 });
               }}
               name="liquid"
+              placeholder="Select ..."
               style={{
+                minWidth: 80,
                 maxWidth: 115,
-                marginLeft: "8px",
-                marginRight: "8px",
+                marginLeft: "6px",
+                marginRight: "6px",
               }}
             >
               <MenuItem value="water/scum" dense>
@@ -47,7 +45,6 @@ const DistanceToGrade = ({ postData, setPostData, classes }) => {
             </Select>
             found in OSDS, its distance to finished grade:{" "}
             <TextField
-              variant="outlined"
               onChange={(e) =>
                 setPostData({
                   ...postData,
@@ -56,7 +53,8 @@ const DistanceToGrade = ({ postData, setPostData, classes }) => {
               }
               value={postData.liquidDistanceToFinishedGrade}
               name="distance"
-              style={{ maxWidth: 90 }}
+              type="number"
+              style={{ minWidth: 50, maxWidth: 70 }}
               size="small"
               InputProps={{
                 endAdornment: (
