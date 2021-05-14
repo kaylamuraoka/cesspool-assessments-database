@@ -33,13 +33,17 @@ const DistanceToGrade = ({ postData, setPostData, classes }) => {
               }}
               name="liquid"
               style={{
-                minWidth: 120,
+                maxWidth: 115,
                 marginLeft: "8px",
                 marginRight: "8px",
               }}
             >
-              <MenuItem value="water/scum">water/scum</MenuItem>
-              <MenuItem value="sludge">sludge</MenuItem>
+              <MenuItem value="water/scum" dense>
+                water/scum
+              </MenuItem>
+              <MenuItem value="sludge" dense>
+                sludge
+              </MenuItem>
             </Select>
             found in OSDS, its distance to finished grade:{" "}
             <TextField
@@ -52,7 +56,7 @@ const DistanceToGrade = ({ postData, setPostData, classes }) => {
               }
               value={postData.liquidDistanceToFinishedGrade}
               name="distance"
-              style={{ maxWidth: 140 }}
+              style={{ maxWidth: 90 }}
               size="small"
               InputProps={{
                 endAdornment: (
