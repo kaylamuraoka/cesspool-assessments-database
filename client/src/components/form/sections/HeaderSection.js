@@ -112,14 +112,20 @@ const HeaderSection = ({ postData, setPostData }) => {
                 }}
                 name="location"
                 style={{
-                  minWidth: 120,
+                  minWidth: 80,
                   marginLeft: "8px",
                   marginRight: "8px",
                 }}
               >
-                <MenuItem value="Waianae">Waianae</MenuItem>
-                <MenuItem value="Nanakuli">Nanakuli</MenuItem>
-                <MenuItem value="Waimanalo">Waimanalo</MenuItem>
+                <MenuItem value="Waianae" dense>
+                  Waianae
+                </MenuItem>
+                <MenuItem value="Nanakuli" dense>
+                  Nanakuli
+                </MenuItem>
+                <MenuItem value="Waimanalo" dense>
+                  Waimanalo
+                </MenuItem>
               </Select>
             </Grid>
           </Grid>
