@@ -1,16 +1,32 @@
-import ACTIONS from "./index";
-import axios from "axios";
+import { GLOBALTYPES } from "./globalTypes";
+import { getDataAPI } from "../../utils/fetchData";
 
-export const fetchAllUsers = async (token) => {
-  const res = await axios.get("/user/all_info", {
-    headers: { Authorization: token },
-  });
-  return res;
+export const USER_TYPES = {
+  LOADING: "LOADING_USERS",
+  GET_ALL_USERS: "GET_ALL_USERS",
 };
 
-export const dispatchGetAllUsers = (res) => {
-  return {
-    type: ACTIONS.GET_ALL_USERS,
-    payload: res.data,
-  };
+export const getAllUsers = (token) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_TYPES.LOADING, payload: true });
+
+    const res = await getDataAPI("users/all", token);
+    console.log(res);
+    dispatch({
+      type: USER_TYPES.GET_ALL_USERS,
+      payload: {
+        users: res.data.users,
+        total: res.data.total,
+      },
+    });
+
+    dispatch({ type: USER_TYPES.LOADING, payload: false });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
 };

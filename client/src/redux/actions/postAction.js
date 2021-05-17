@@ -25,7 +25,13 @@ export const createPost = ({ postData, images, auth, socket }) => async (
   const check = validPost(postData);
 
   if (check.errLength > 0) {
-    return dispatch({ type: GLOBALTYPES.ALERT, payload: check.errMsg });
+    return dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: "Please correct the errors on your form",
+        ...check.errMsg,
+      },
+    });
   }
 
   let media = [];
@@ -281,14 +287,14 @@ export const unsavePost = ({ post, auth }) => async (dispatch) => {
 };
 
 // Newly added to get all posts
-export const getAllPosts = (token, page, limit) => async (dispatch) => {
+export const getAllPosts = (token) => async (dispatch) => {
   try {
     dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
-    const res = await getDataAPI(`getAllPosts?limit=${page * limit}`, token);
+    const res = await getDataAPI("getAllPosts", token);
 
     dispatch({
       type: POST_TYPES.GET_ALL_POSTS,
-      payload: { ...res.data, page: page },
+      payload: { ...res.data },
     });
 
     dispatch({ type: POST_TYPES.LOADING_POST, payload: false });
@@ -301,3 +307,24 @@ export const getAllPosts = (token, page, limit) => async (dispatch) => {
     });
   }
 };
+
+// export const getAllPosts = (token, page, limit) => async (dispatch) => {
+//   try {
+//     dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
+//     const res = await getDataAPI(`getAllPosts?limit=${page * limit}`, token);
+
+//     dispatch({
+//       type: POST_TYPES.GET_ALL_POSTS,
+//       payload: { ...res.data, page: page },
+//     });
+
+//     dispatch({ type: POST_TYPES.LOADING_POST, payload: false });
+//   } catch (err) {
+//     dispatch({
+//       type: GLOBALTYPES.ALERT,
+//       payload: {
+//         error: err.response.data.msg,
+//       },
+//     });
+//   }
+// };

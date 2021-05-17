@@ -11,6 +11,7 @@ import notify from "./notifyReducer";
 import message from "./messageReducer";
 import online from "./onlineReducer";
 import status from "./statusReducer";
+import users from "./userReducer";
 
 export default combineReducers({
   auth,
@@ -25,4 +26,5 @@ export default combineReducers({
   message,
   online,
   status,
+  users,
 });

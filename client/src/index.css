@@ -45,3 +45,6 @@ a:hover {
 
 /* ------------ Messages ------------- */
 @import url("./styles/message.css");
+
+/* ------------ Table ------------- */
+@import url("./styles/table.css");

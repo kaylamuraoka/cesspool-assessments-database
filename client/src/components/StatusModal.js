@@ -30,24 +30,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 80,
-  },
-  largeAvatar: {
-    border: "2px solid #ddd",
-    width: theme.spacing(13),
-    height: theme.spacing(13),
-  },
   input: {
     display: "none",
-  },
-  icon: {
-    opacity: "0.6",
-  },
-  inputDiv: {
-    width: "100%",
-    marginTop: 15,
   },
 }));
 
@@ -176,19 +160,22 @@ function StatusModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (images.length === 0)
-    //   return dispatch({
-    //     type: GLOBALTYPES.ALERT,
-    //     payload: { error: "Please add your photo." },
-    //   });
+    if (images.length === 0)
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Please add your photo." },
+      });
+
     if (status.onEdit) {
       dispatch(updatePost({ postData, images, auth, status }));
     } else {
       dispatch(createPost({ postData, images, auth, socket }));
+      setPostData(initialState);
+      setImages([]);
     }
 
-    setPostData(initialState);
-    setImages([]);
+    // setPostData(initialState);
+    // setImages([]);
 
     if (tracks) tracks.stop();
     dispatch({ type: GLOBALTYPES.STATUS, payload: false });
@@ -267,13 +254,9 @@ function StatusModal() {
             Please fill out the following form in as much detail as possible:
           </Typography>
           <form onSubmit={handleSubmit}>
-            <OsdsForm
-              postData={postData}
-              setPostData={setPostData}
-              classes={classes}
-            />
+            <OsdsForm postData={postData} setPostData={setPostData} />
 
-            <Typography
+            {/* <Typography
               variant="subtitle2"
               align="center"
               style={{
@@ -286,7 +269,7 @@ function StatusModal() {
               PLEASE ATTACH A PHOTO OF THE TOP OF OSDS WITH COVER REMOVED. ALSO
               TAKE PHOTOS TO SHOW AN AREA VIEW OF THE OSDS, FRONT VIEW OF THE
               PROPERTY AND THE STREET ADDRESS VIEW
-            </Typography>
+            </Typography> */}
 
             <Box display="flex" mt={1} mb={3} bgcolor="background.paper">
               {stream ? (

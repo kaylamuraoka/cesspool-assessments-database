@@ -164,10 +164,13 @@ theme.typography.body1 = {
     fontSize: "12px",
   },
   "@media (min-width:600px)": {
-    fontSize: "17px",
+    fontSize: "12px",
+  },
+  "@media (min-width:800px)": {
+    fontSize: "14px",
   },
   "@media (min-width:1025px)": {
-    fontSize: "19px",
+    fontSize: "18px",
   },
 };
 
