@@ -188,7 +188,7 @@ const postSchema = new mongoose.Schema(
     },
     solidPumpInterval: {
       type: String,
-      enum: ["<6", "6-9", "12-24", ">24", "Other", "Unknown"],
+      enum: ["<6", "6-9", "9-12", "12-24", ">24", "Other", "Unknown"],
     },
     solidPumpIntervalOtherValue: {
       type: String,
