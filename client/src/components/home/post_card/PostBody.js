@@ -86,17 +86,17 @@ const PostBody = ({ post }) => {
         <p>
           <strong>OSDS Found? </strong>
           {post.osdsFound === "Yes" ? (
-            <CheckIcon style={{ color: green[500] }} />
+            <CheckIcon style={{ color: green[500] }} fontSize="small" />
           ) : (
-            <CloseIcon style={{ color: red[500] }} />
+            <CloseIcon style={{ color: red[500] }} fontSize="small" />
           )}
         </p>
         <p>
           <strong>Access Port Provided? </strong>
           {post.accessPortProvided && post.accessPortProvided === "Yes" ? (
-            <CheckIcon style={{ color: green[500] }} />
+            <CheckIcon style={{ color: green[500] }} fontSize="small" />
           ) : (
-            <CloseIcon style={{ color: red[500] }} />
+            <CloseIcon style={{ color: red[500] }} fontSize="small" />
           )}
         </p>
         <p>
@@ -119,9 +119,9 @@ const PostBody = ({ post }) => {
         <p>
           <strong>Inlet Piping Found: </strong>
           {post.inletPipingFound === "Yes" ? (
-            <CheckIcon style={{ color: green[500] }} />
+            <CheckIcon style={{ color: green[500] }} fontSize="small" />
           ) : (
-            <CloseIcon style={{ color: red[500] }} />
+            <CloseIcon style={{ color: red[500] }} fontSize="small" />
           )}
         </p>
         <p>
@@ -131,9 +131,9 @@ const PostBody = ({ post }) => {
         <p>
           <strong>Outlet Piping Found: </strong>
           {post.outletPipingFound === "Yes" ? (
-            <CheckIcon style={{ color: green[500] }} />
+            <CheckIcon style={{ color: green[500] }} fontSize="small" />
           ) : (
-            <CloseIcon style={{ color: red[500] }} />
+            <CloseIcon style={{ color: red[500] }} fontSize="small" />
           )}
         </p>
         <p>
