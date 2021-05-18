@@ -14,7 +14,6 @@ const DataTable = ({ posts, load }) => {
   for (let i = 0; i < posts.length; i++) {
     let weather = "";
     let lotOccupied = "";
-    let osdsFound = "";
 
     if (posts[i].weather === "Other") {
       weather = `${posts[i].weather}: ${posts[i].weatherOtherValue}`;

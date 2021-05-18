@@ -18,11 +18,6 @@ const PostBody = ({ post }) => {
         <ImagesGrid images={post.images} id={post._id} />
       )}
       <CardContent>
-        {/* <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography> */}
         <p>
           <strong>Date/Time: </strong>
           <Moment>{post.dateTime}</Moment>

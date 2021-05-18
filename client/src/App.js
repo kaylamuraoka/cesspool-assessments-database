@@ -30,13 +30,14 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/Profile";
 import Post from "./pages/Post";
-import Discover from "./pages/Discover";
 import Messages from "./pages/messages/Messages";
 import Conversation from "./pages/messages/Conversation";
 import OsdsFieldSurvey from "./pages/OsdsFieldSurvey";
 import Reports from "./pages/Reports";
 import Users from "./pages/Users";
 import Appointments from "./pages/Appointments";
+import Dashboard from "./pages/Dashboard";
+import Map from "./pages/Map";
 
 import io from "socket.io-client";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
@@ -265,6 +266,14 @@ function App() {
           <main className={classes.content}>
             {auth.token && <div className={classes.toolbar} />}
             <Switch>
+              <Route
+                path="/dashboard"
+                component={auth.token ? Dashboard : Login}
+                exact
+              />
+
+              <Route path="/map" component={auth.token ? Map : Login} exact />
+
               <Route path="/" component={auth.token ? Home : Login} exact />
 
               <Route
@@ -313,12 +322,6 @@ function App() {
                 path="/users"
                 component={auth.token ? Users : NotFound}
                 exact
-              />
-
-              <Route
-                exact
-                path="/discover"
-                component={auth.token ? Discover : Login}
               />
 
               <Route

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likePost,
@@ -13,12 +12,9 @@ import { BASE_URL } from "../../../utils/config";
 import { EmailShareButton } from "react-share";
 
 // Material UI Components
-import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Link from "@material-ui/core/Link";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
@@ -144,17 +140,6 @@ const PostFooter = ({ post }) => {
             <BookmarkBorderIcon />
           </IconButton>
         )}
-
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={() => setExpanded(!expanded)}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
       </CardActions>
 
       <div style={{ width: "100%" }}>
@@ -182,13 +167,6 @@ const PostFooter = ({ post }) => {
           </Box>
         </Box>
       </div>
-
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>lorem...</Typography>
-        </CardContent>
-      </Collapse>
     </>
   );
 };
