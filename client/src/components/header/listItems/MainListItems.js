@@ -8,7 +8,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import PermDataSettingIcon from "@material-ui/icons/PermDataSetting";
 import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import SearchIcon from "@material-ui/icons/Search";
+import RoomIcon from "@material-ui/icons/Room";
 
 const MainListItems = () => {
   const { pathname } = useLocation();
@@ -58,6 +58,18 @@ const MainListItems = () => {
           <BarChartIcon />
         </ListItemIcon>
         <ListItemText primary="Reports" />
+      </ListItem>
+
+      <ListItem
+        button
+        component="a"
+        href="/map"
+        selected={pathname === "/map" ? true : false}
+      >
+        <ListItemIcon>
+          <RoomIcon />
+        </ListItemIcon>
+        <ListItemText primary="Map" />
       </ListItem>
     </List>
   );
