@@ -9,6 +9,7 @@ import PermDataSettingIcon from "@material-ui/icons/PermDataSetting";
 import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import RoomIcon from "@material-ui/icons/Room";
+import FiberNewIcon from "@material-ui/icons/FiberNew";
 
 const MainListItems = () => {
   const { pathname } = useLocation();
@@ -70,6 +71,18 @@ const MainListItems = () => {
           <RoomIcon />
         </ListItemIcon>
         <ListItemText primary="Map" />
+      </ListItem>
+
+      <ListItem
+        button
+        component="a"
+        href="/recent_activity"
+        selected={pathname === "/recent_activity" ? true : false}
+      >
+        <ListItemIcon>
+          <FiberNewIcon />
+        </ListItemIcon>
+        <ListItemText primary="Recent Activity" />
       </ListItem>
     </List>
   );
