@@ -4,7 +4,6 @@ import alert from "./alertReducer";
 import profile from "./profileReducer";
 import homePosts from "./postReducer";
 import detailPost from "./detailPostReducer";
-import discover from "./discoverReducer";
 import suggestions from "./suggestionsReducer";
 import socket from "./socketReducer";
 import notify from "./notifyReducer";
@@ -19,7 +18,6 @@ export default combineReducers({
   profile,
   homePosts,
   detailPost,
-  discover,
   suggestions,
   socket,
   notify,
