@@ -59,17 +59,6 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Reports" />
       </ListItem>
-      <ListItem
-        button
-        component="a"
-        href="/discover"
-        selected={pathname === "/discover" ? true : false}
-      >
-        <ListItemIcon>
-          <SearchIcon />
-        </ListItemIcon>
-        <ListItemText primary="Discover" />
-      </ListItem>
     </List>
   );
 };
