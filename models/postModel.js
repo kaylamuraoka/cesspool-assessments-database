@@ -4,38 +4,44 @@ const postSchema = new mongoose.Schema(
   {
     dateTime: {
       type: String,
-      required: true,
+      required: [true, "Please enter the date and time!"],
     },
     recordNum: {
       type: Number,
-      required: true,
+      required: [true, "Please enter the record number!"],
     },
     TMK: {
       type: String,
-      required: true,
+      required: [true, "Please enter the TMK!"],
     },
     location: {
       type: String,
       enum: ["Waianae", "Nanakuli", "Waimanalo"],
-      required: true,
+      required: [true, "Please enter the location!"],
     },
     propertyOwner: {
       type: String,
+      required: true,
     },
     contactInfo: {
       type: String,
+      required: true,
     },
     projectAddress: {
       type: String,
+      required: true,
     },
     city: {
       type: String,
+      required: true,
     },
     engineer: {
       type: String,
+      required: true,
     },
     contractor: {
       type: String,
+      required: true,
     },
     weather: {
       type: String,
@@ -170,12 +176,12 @@ const postSchema = new mongoose.Schema(
     propertyLocation: {
       type: String,
       enum: ["OSDS", "Public Sewer", "Unknown"],
-      required: true,
+      default: "Unknown",
     },
     osdsInService: {
       type: String,
       enum: ["Yes", "No (Abandoned)", "Unknown"],
-      required: true,
+      default: "Unknown",
     },
     numOfBedrooms: {
       type: Number,
@@ -197,6 +203,7 @@ const postSchema = new mongoose.Schema(
     overflowPipeToSewer: {
       type: String,
       enum: ["Yes", "No", "Unknown"],
+      default: "Unknown",
     },
     osdsType: {
       type: String,
@@ -230,6 +237,7 @@ const postSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    coordinates: Object,
     images: {
       type: Array,
       default: [],

@@ -1,6 +1,7 @@
 const Posts = require("../models/postModel");
 const Comments = require("../models/commentModel");
 const Users = require("../models/userModel");
+const fetch = require("node-fetch");
 
 // Filtering, sorting, and paginating
 class APIfeatures {
@@ -100,33 +101,33 @@ const postController = {
         images,
       } = req.body;
 
-      // var weatherEdited;
-      // var lotOccupiedEdited;
+      if (
+        !dateTime ||
+        !recordNum ||
+        !TMK ||
+        !location ||
+        !propertyOwner ||
+        !contactInfo ||
+        !projectAddress ||
+        !city ||
+        !engineer ||
+        !contractor ||
+        !weather ||
+        !lotOccupied
+      )
+        return res.status(400).json({ msg: "Please fill in all fields." });
 
-      // if (weather === "Other") {
-      //   weatherEdited = `Other: ${weatherOtherValue}`;
-      // } else {
-      //   weatherEdited = weather;
-      // }
+      const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${projectAddress.replace(
+        /\s/g,
+        "+"
+      )},+${city},+HI&key=${process.env.GOOGLE_MAPS_API_KEY}`;
 
-      // if (lotOccupied === "Other") {
-      //   lotOccupiedEdited = `Other: ${lotOccupiedOtherValue}`;
-      // } else {
-      //   lotOccupiedEdited = lotOccupied;
-      // }
-
-      // if (osdsLocation.includes("Other")) {
-      //   const index = osdsLocation.indexOf("Other");
-      //   osdsLocation[index] = `Other: ${osdsLocationOtherValue}`;
-      // }
-
-      // if (rightOfEntryIssue.includes("Other")) {
-      //   const index = rightOfEntryIssue.indexOf("Other");
-      //   rightOfEntryIssue[index] = `Other: ${rightOfEntryIssueOtherValue}`;
-      // }
-
-      // if()
-      // return res.status(400).json({msg: ""})
+      let coordinates = {};
+      await fetch(geocodingUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          coordinates = data.results[0].geometry.location;
+        });
 
       const newPost = new Posts({
         dateTime,
@@ -173,6 +174,7 @@ const postController = {
         email,
         mailingAddress,
         additionalNotes,
+        coordinates,
         images,
         user: req.user._id,
       });
@@ -590,5 +592,25 @@ const postController = {
     }
   },
 };
+
+// Functions to validate user input
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function validateName(name) {
+  if (name.length < 2 || !name.match(/^[A-Za-z- ]+$/)) {
+    return false;
+  }
+  return true;
+}
+
+function validatePhone(phone) {
+  if (phone.length !== 10 || !phone.match(/^\d{10}$/)) {
+    return false;
+  }
+  return true;
+}
 
 module.exports = postController;
