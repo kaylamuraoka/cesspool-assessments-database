@@ -181,10 +181,8 @@ const Header = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem dense onClick={() => (window.location.href = "/messages")}>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={3} color="secondary">
-            <ChatBubbleRoundedIcon />
-          </Badge>
+        <IconButton color="inherit">
+          <ChatBubbleRoundedIcon />
         </IconButton>
         Messages
       </MenuItem>
@@ -267,14 +265,8 @@ const Header = () => {
           <SearchBar />
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton
-              aria-label="show 4 new mails"
-              color="inherit"
-              href="/messages"
-            >
-              <Badge badgeContent={4} color="secondary">
-                <ChatBubbleRoundedIcon />
-              </Badge>
+            <IconButton color="inherit" href="/messages">
+              <ChatBubbleRoundedIcon />
             </IconButton>
             <IconButton
               aria-label={`show ${notify.data.length} new notifications`}
