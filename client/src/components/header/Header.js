@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import { logout } from "../../redux/actions/authAction";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
 // Material UI Components
 import { makeStyles } from "@material-ui/core/styles";
@@ -88,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
 
-  const { auth, theme, notify } = useSelector((state) => state);
+  const { auth, notify } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(true);
@@ -143,22 +142,6 @@ const Header = () => {
             className={classes.menuDropdownIcon}
           />
           Profile
-        </MenuItem>
-      </Link>
-
-      <Link
-        component="a"
-        underline="none"
-        variant="inherit"
-        color="textPrimary"
-        onClick={() => dispatch({ type: GLOBALTYPES.THEME, payload: !theme })}
-      >
-        <MenuItem dense>
-          <Brightness4Icon
-            fontSize="small"
-            className={classes.menuDropdownIcon}
-          />
-          {theme ? "Light mode" : "Dark Mode"}
         </MenuItem>
       </Link>
 
