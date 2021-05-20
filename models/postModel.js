@@ -6,13 +6,9 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter the date and time!"],
     },
-    recordNum: {
-      type: Number,
-      required: [true, "Please enter the record number!"],
-    },
     TMK: {
       type: String,
-      required: [true, "Please enter the TMK!"],
+      default: "",
     },
     location: {
       type: String,
@@ -21,17 +17,17 @@ const postSchema = new mongoose.Schema(
     },
     propertyOwner: {
       type: String,
-      required: true,
+      default: "",
     },
-    contactInfo: {
+    propertyOwnerPhone: {
       type: String,
-      required: true,
+      default: "",
+    },
+    propertyOwnerEmail: {
+      type: String,
+      default: "",
     },
     projectAddress: {
-      type: String,
-      required: true,
-    },
-    city: {
       type: String,
       required: true,
     },
