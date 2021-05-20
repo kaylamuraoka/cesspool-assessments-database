@@ -39,6 +39,7 @@ import Appointments from "./pages/Appointments";
 import Dashboard from "./pages/Dashboard";
 import Map from "./pages/Map";
 import RecentActivity from "./pages/RecentActivity";
+import EditPost from "./pages/EditPost";
 
 import io from "socket.io-client";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
@@ -322,6 +323,12 @@ function App() {
               <Route
                 path="/post/:id"
                 component={auth.token ? Post : NotFound}
+                exact
+              />
+
+              <Route
+                path="/post/edit/:id"
+                component={auth.token ? EditPost : NotFound}
                 exact
               />
 

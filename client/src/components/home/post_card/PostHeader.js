@@ -18,6 +18,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CopyIcon from "@material-ui/icons/FileCopy";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 const PostHeader = ({ post }) => {
   const { auth, socket } = useSelector((state) => state);
@@ -28,11 +29,13 @@ const PostHeader = ({ post }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleEditPost = () => {
-    dispatch({
-      type: GLOBALTYPES.STATUS,
-      payload: { ...post, onEdit: true },
-    });
-    setAnchorEl(null);
+    history.push("/");
+    // dispatch({
+    //   type: GLOBALTYPES.STATUS,
+    //   payload: { ...post, onEdit: true },
+    // });
+
+    // setAnchorEl(null);
   };
 
   const handleDeletePost = () => {
@@ -46,6 +49,29 @@ const PostHeader = ({ post }) => {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`);
     setAnchorEl(null);
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: { success: "Link copied" },
+    });
+  };
+
+  const ViewPostMenuLink = () => {
+    return (
+      <Link
+        component="a"
+        underline="none"
+        variant="inherit"
+        color="textSecondary"
+        href={`/post/${post._id}`}
+      >
+        <MenuItem>
+          <ListItemIcon>
+            <VisibilityIcon fontSize="small" />
+          </ListItemIcon>
+          View Post
+        </MenuItem>
+      </Link>
+    );
   };
 
   const EditPostMenuLink = () => {
@@ -55,8 +81,9 @@ const PostHeader = ({ post }) => {
         underline="none"
         variant="inherit"
         color="textSecondary"
+        href={`/post/edit/${post._id}`}
       >
-        <MenuItem onClick={handleEditPost}>
+        <MenuItem>
           <ListItemIcon>
             <EditIcon fontSize="small" />
           </ListItemIcon>
@@ -92,6 +119,7 @@ const PostHeader = ({ post }) => {
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
       >
+        <ViewPostMenuLink />
         {auth.user._id === post.user._id && <EditPostMenuLink />}
         {auth.user._id === post.user._id && <RemovePostMenuLink />}
         <Link
