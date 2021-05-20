@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likePost,
@@ -22,26 +21,7 @@ import BookmarkIcon from "@material-ui/icons/Bookmark";
 import Box from "@material-ui/core/Box";
 import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
 
-const useStyles = makeStyles((theme) => ({
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-  iconButton: {
-    paddingTop: theme.spacing(2),
-  },
-}));
-
 const PostFooter = ({ post }) => {
-  const classes = useStyles();
-  const [expanded, setExpanded] = useState(false);
-
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
 
