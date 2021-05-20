@@ -256,21 +256,6 @@ function StatusModal() {
           <form onSubmit={handleSubmit}>
             <OsdsForm postData={postData} setPostData={setPostData} />
 
-            {/* <Typography
-              variant="subtitle2"
-              align="center"
-              style={{
-                textAlign: "center",
-                fontWeight: "400",
-                paddingLeft: 20,
-                paddingRight: 20,
-              }}
-            >
-              PLEASE ATTACH A PHOTO OF THE TOP OF OSDS WITH COVER REMOVED. ALSO
-              TAKE PHOTOS TO SHOW AN AREA VIEW OF THE OSDS, FRONT VIEW OF THE
-              PROPERTY AND THE STREET ADDRESS VIEW
-            </Typography> */}
-
             <Box display="flex" mt={1} mb={3} bgcolor="background.paper">
               {stream ? (
                 <label htmlFor="icon-button-file">

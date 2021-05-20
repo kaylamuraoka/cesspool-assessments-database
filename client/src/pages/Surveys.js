@@ -143,6 +143,7 @@ const Surveys = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [postData, setPostData] = useState(initialState);
   const [images, setImages] = useState([]);
+  const [tracks, setTracks] = useState("");
 
   function getStepContent(step) {
     switch (step) {
@@ -157,7 +158,16 @@ const Surveys = () => {
           <HomeownerSection postData={postData} setPostData={setPostData} />
         );
       case 3:
-        return <FooterSection postData={postData} setPostData={setPostData} />;
+        return (
+          <FooterSection
+            postData={postData}
+            setPostData={setPostData}
+            images={images}
+            setImages={setImages}
+            tracks={tracks}
+            setTracks={setTracks}
+          />
+        );
       case 4:
         return <OsdsForm postData={postData} setPostData={setPostData} />;
       default:
@@ -176,18 +186,14 @@ const Surveys = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(postData);
-    // if (images.length === 0)
-    //   return dispatch({
-    //     type: GLOBALTYPES.ALERT,
-    //     payload: { error: "Please add your photo." },
-    //   });
 
     dispatch(createPost({ postData, images, auth, socket }));
 
     // setPostData(initialState);
     // setImages([]);
 
-    // if (tracks) tracks.stop();
+    if (tracks) tracks.stop();
+
     // dispatch({ type: GLOBALTYPES.STATUS, payload: false });
   };
 
