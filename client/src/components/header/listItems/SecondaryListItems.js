@@ -21,7 +21,6 @@ const SecondaryListItems = () => {
   const classes = useStyles();
   const { pathname } = useLocation();
 
-  const [openReports, setOpenReports] = useState(true);
   const [openCalendar, setOpenCalendar] = useState(true);
 
   return (
