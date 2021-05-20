@@ -56,13 +56,12 @@ const postController = {
     try {
       const {
         dateTime,
-        recordNum,
         TMK,
         location,
         propertyOwner,
-        contactInfo,
+        propertyOwnerPhone,
+        propertyOwnerEmail,
         projectAddress,
-        city,
         engineer,
         contractor,
         weather,
@@ -103,13 +102,8 @@ const postController = {
 
       if (
         !dateTime ||
-        !recordNum ||
-        !TMK ||
         !location ||
-        !propertyOwner ||
-        !contactInfo ||
         !projectAddress ||
-        !city ||
         !engineer ||
         !contractor ||
         !weather ||
@@ -120,7 +114,7 @@ const postController = {
       const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${projectAddress.replace(
         /\s/g,
         "+"
-      )},+${city},+HI&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+      )}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
 
       let coordinates = {};
       await fetch(geocodingUrl)
@@ -131,13 +125,12 @@ const postController = {
 
       const newPost = new Posts({
         dateTime,
-        recordNum,
         TMK,
         location,
         propertyOwner,
-        contactInfo,
+        propertyOwnerPhone,
+        propertyOwnerEmail,
         projectAddress,
-        city,
         engineer,
         contractor,
         weather,
@@ -221,13 +214,12 @@ const postController = {
     try {
       const {
         dateTime,
-        recordNum,
         TMK,
         location,
         propertyOwner,
-        contactInfo,
+        propertyOwnerPhone,
+        propertyOwnerEmail,
         projectAddress,
-        city,
         engineer,
         contractor,
         weather,
@@ -270,13 +262,12 @@ const postController = {
         { _id: req.params.id },
         {
           dateTime,
-          recordNum,
           TMK,
           location,
           propertyOwner,
-          contactInfo,
+          propertyOwnerPhone,
+          propertyOwnerEmail,
           projectAddress,
-          city,
           engineer,
           contractor,
           weather,
@@ -329,13 +320,12 @@ const postController = {
         newPost: {
           ...post._doc,
           dateTime,
-          recordNum,
           TMK,
           location,
           propertyOwner,
-          contactInfo,
+          propertyOwnerPhone,
+          propertyOwnerEmail,
           projectAddress,
-          city,
           engineer,
           contractor,
           weather,
