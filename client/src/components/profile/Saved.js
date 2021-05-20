@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import PostThumb from "../PostThumb";
 import LoadIcon from "../../images/loading.gif";
 import LoadMoreBtn from "../buttons/LoadMoreBtn";
 import { getDataAPI } from "../../utils/fetchData";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import Typography from "@material-ui/core/Typography";
+import PostCard from "../PostCard";
+import Link from "@material-ui/core/Link";
 
 const Saved = ({ auth, dispatch }) => {
   const [savePosts, setSavePosts] = useState([]);
@@ -39,9 +41,25 @@ const Saved = ({ auth, dispatch }) => {
     setLoad(false);
   };
 
+  if (result === 0)
+    return (
+      <Typography
+        color="textSecondary"
+        variant="h6"
+        align="center"
+        style={{ fontWeight: "bold" }}
+      >
+        No posts yet
+      </Typography>
+    );
+
   return (
     <div>
-      <PostThumb posts={savePosts} result={result} />
+      {savePosts.map((post) => (
+        <Link key={post._id} href={`/post/${post._id}`}>
+          <PostCard post={post} />
+        </Link>
+      ))}
 
       {load && <img src={LoadIcon} alt="Loading..." />}
 
