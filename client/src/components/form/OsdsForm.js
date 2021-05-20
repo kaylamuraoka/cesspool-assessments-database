@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import HeaderSection from "./sections/HeaderSection";
 import EngineerSection from "./sections/EngineerSection";
@@ -10,29 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import teal from "@material-ui/core/colors/teal";
-
-const useStyles = makeStyles((theme) => ({
-  // container: {
-  //   margin: theme.spacing(0),
-  //   // paddingTop: theme.spacing(2),
-  //   // paddingBottom: theme.spacing(2),
-  //   // backgroundColor: teal[100],
-  // },
-  paper: {
-    // marginTop: theme.spacing(2),
-    // marginBottom: theme.spacing(2),
-    // padding: theme.spacing(2),
-    // display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
-  },
-}));
 
 const OsdsForm = ({ postData, setPostData }) => {
-  const classes = useStyles();
-
   return (
     <Container>
       <Grid>
