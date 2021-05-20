@@ -38,6 +38,7 @@ import Users from "./pages/Users";
 import Appointments from "./pages/Appointments";
 import Dashboard from "./pages/Dashboard";
 import Map from "./pages/Map";
+import RecentActivity from "./pages/RecentActivity";
 
 import io from "socket.io-client";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
@@ -269,6 +270,12 @@ function App() {
               <Route
                 path="/dashboard"
                 component={auth.token ? Dashboard : Login}
+                exact
+              />
+
+              <Route
+                path="/recent_activity"
+                component={auth.token ? RecentActivity : Login}
                 exact
               />
 
