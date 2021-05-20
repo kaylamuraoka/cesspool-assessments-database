@@ -43,13 +43,12 @@ export const validRegistration = ({
 
 export const validPost = ({
   dateTime,
-  recordNum,
   TMK,
   location,
   propertyOwner,
-  contactInfo,
+  propertyOwnerPhone,
+  propertyOwnerEmail,
   projectAddress,
-  city,
   engineer,
   contractor,
   weather,
@@ -91,27 +90,11 @@ export const validPost = ({
   if (!dateTime) {
     err.dateTime = "This field is required.";
   }
-
-  if (!recordNum) {
-    err.recordNum = "This field is required.";
-  }
-  if (!TMK) {
-    err.TMK = "This field is required.";
-  }
   if (!location) {
     err.location = "This field is required.";
   }
-  if (!propertyOwner) {
-    err.propertyOwner = "This field is required.";
-  }
-  if (!contactInfo) {
-    err.contactInfo = "This field is required.";
-  }
   if (!projectAddress) {
     err.projectAddress = "This field is required.";
-  }
-  if (!city) {
-    err.city = "This field is required.";
   }
   if (!engineer) {
     err.engineer = "This field is required.";
