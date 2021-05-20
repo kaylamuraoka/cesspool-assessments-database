@@ -29,7 +29,7 @@ import SearchBar from "./SearchBar";
 import NotifyModal from "../NotifyModal";
 import DrawerMenu from "./DrawerMenu";
 
-const drawerWidth = 220;
+const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
