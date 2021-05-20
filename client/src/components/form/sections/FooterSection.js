@@ -4,6 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 const FooterSection = ({ postData, setPostData }) => {
+  const handleChangeInput = (e) => {
+    setPostData({ ...postData, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <Typography
@@ -21,17 +25,12 @@ const FooterSection = ({ postData, setPostData }) => {
       <TextField
         label="Additional Notes"
         multiline
-        rows={4}
+        rows={3}
         placeholder="Additional Notes"
         variant="outlined"
-        onChange={(e) =>
-          setPostData({
-            ...postData,
-            additionalNotes: e.target.value,
-          })
-        }
         value={postData.additionalNotes}
         name="additionalNotes"
+        onChange={handleChangeInput}
         size="small"
         fullWidth
         helperText={alert.additionalNotes ? alert.additionalNotes : null}

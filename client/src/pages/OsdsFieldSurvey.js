@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../redux/actions/postAction";
+
 // Material UI Componentss
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -70,13 +71,12 @@ const currDateTime = moment().utcOffset("-10:00").format("YYYY-MM-DDThh:mm");
 
 const initialState = {
   dateTime: currDateTime,
-  recordNum: "",
-  TMK: "",
+  TMK: "1",
   location: "",
   propertyOwner: "",
-  contactInfo: "",
+  propertyOwnerPhone: "808",
+  propertyOwnerEmail: "",
   projectAddress: "",
-  city: "",
   engineer: "",
   contractor: "",
   weather: "",
@@ -172,6 +172,7 @@ const OsdsFieldSurvey = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(postData);
     // if (images.length === 0)
     //   return dispatch({
     //     type: GLOBALTYPES.ALERT,

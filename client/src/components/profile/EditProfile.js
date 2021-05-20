@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect, forwardRef, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { checkImage } from "../../utils/imageUpload";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   icon: {
-    opacity: "0.6",
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -69,8 +70,7 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
   }, [auth.user]);
 
   const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
   const changeAvatar = (e) => {

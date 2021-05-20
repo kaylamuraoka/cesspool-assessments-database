@@ -24,7 +24,7 @@ const PostBody = ({ post }) => {
         </p>
         <p>
           <strong>Record No: </strong>
-          {post.recordNum}
+          {post._id}
         </p>
         <p>
           <strong>TMK: </strong>
@@ -40,15 +40,12 @@ const PostBody = ({ post }) => {
         </p>
         <p>
           <strong>Contact Info: </strong>
-          {post.contactInfo}
+          {post.propertyOwnerPhone && <p>Phone: {post.propertyOwnerPhone} </p>}
+          {post.propertyOwnerEmail && <p>Email: {post.propertyOwnerEmail} </p>}
         </p>
         <p>
           <strong>Project Address: </strong>
           {post.projectAddress}
-        </p>
-        <p>
-          <strong>City: </strong>
-          {post.city}
         </p>
         <p>
           <strong>Engineer: </strong>

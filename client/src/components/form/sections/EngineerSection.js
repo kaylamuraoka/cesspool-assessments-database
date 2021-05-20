@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import StyledCheckbox from "../../inputs/StyledCheckbox";
 import StyledRadio from "../../inputs/StyledRadio";
+// import { weatherOptions, lotOccupiedOptions } from "../../../utils/formData";
 
 // Material UI Components
 import Grid from "@material-ui/core/Grid";
@@ -18,8 +19,9 @@ import FormGroup from "@material-ui/core/FormGroup";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const weatherOptions = ["Sunny", "Clear", "Cloudy", "Shower"];
-const lotOccupiedOptions = ["Yes", "Vacant", "No House"];
+export const weatherOptions = ["Sunny", "Clear", "Cloudy", "Shower"];
+
+export const lotOccupiedOptions = ["Yes", "Vacant", "No House"];
 
 const EngineerSection = ({ postData, setPostData }) => {
   const { alert } = useSelector((state) => state);
@@ -27,6 +29,13 @@ const EngineerSection = ({ postData, setPostData }) => {
   const handleChangeInput = (e) => {
     setPostData({ ...postData, [e.target.name]: e.target.value });
   };
+
+  function handleOsdsIsChange(e) {
+    setPostData({
+      ...postData,
+      osdsIs: { ...postData.osdsIs, [e.target.name]: e.target.checked },
+    });
+  }
 
   return (
     <Grid container spacing={2}>
@@ -234,14 +243,9 @@ const EngineerSection = ({ postData, setPostData }) => {
             <TextField
               disabled={postData.accessPortProvided === "Yes" ? false : true}
               fullWidth
-              onChange={(e) =>
-                setPostData({
-                  ...postData,
-                  numOfAccessPorts: e.target.value,
-                })
-              }
               value={postData.numOfAccessPorts}
               name="numOfAccessPorts"
+              onChange={handleChangeInput}
               size="small"
               helperText={
                 alert.numOfAccessPorts ? alert.numOfAccessPorts : null
@@ -254,14 +258,9 @@ const EngineerSection = ({ postData, setPostData }) => {
             <TextField
               disabled={postData.accessPortProvided === "Yes" ? false : true}
               fullWidth
-              onChange={(e) =>
-                setPostData({
-                  ...postData,
-                  portSize: e.target.value,
-                })
-              }
               value={postData.portSize}
               name="portSize"
+              onChange={handleChangeInput}
               size="small"
               InputProps={{
                 endAdornment: (
@@ -275,6 +274,7 @@ const EngineerSection = ({ postData, setPostData }) => {
           </Grid>
         </>
       )}
+
       {/* OSDS Is Section */}
       <Grid item xs={12}>
         <FormControl error={alert.osdsIs ? true : false} required fullWidth>
@@ -289,12 +289,7 @@ const EngineerSection = ({ postData, setPostData }) => {
               control={
                 <StyledCheckbox
                   checked={postData.osdsIs.dry}
-                  onChange={(e) => {
-                    setPostData((postData) => ({
-                      ...postData,
-                      osdsIs: { ...postData.osdsIs, dry: e.target.checked },
-                    }));
-                  }}
+                  onChange={handleOsdsIsChange}
                   name="dry"
                 />
               }
@@ -304,15 +299,7 @@ const EngineerSection = ({ postData, setPostData }) => {
               control={
                 <StyledCheckbox
                   checked={postData.osdsIs.wet_water_scum}
-                  onChange={(e) => {
-                    setPostData((postData) => ({
-                      ...postData,
-                      osdsIs: {
-                        ...postData.osdsIs,
-                        wet_water_scum: e.target.checked,
-                      },
-                    }));
-                  }}
+                  onChange={handleOsdsIsChange}
                   name="wet_water_scum"
                 />
               }
@@ -322,15 +309,7 @@ const EngineerSection = ({ postData, setPostData }) => {
               control={
                 <StyledCheckbox
                   checked={postData.osdsIs.wet_sludge}
-                  onChange={(e) => {
-                    setPostData((postData) => ({
-                      ...postData,
-                      osdsIs: {
-                        ...postData.osdsIs,
-                        wet_sludge: e.target.checked,
-                      },
-                    }));
-                  }}
+                  onChange={handleOsdsIsChange}
                   name="wet_sludge"
                 />
               }
@@ -340,15 +319,7 @@ const EngineerSection = ({ postData, setPostData }) => {
               control={
                 <StyledCheckbox
                   checked={postData.osdsIs.odorous}
-                  onChange={(e) => {
-                    setPostData((postData) => ({
-                      ...postData,
-                      osdsIs: {
-                        ...postData.osdsIs,
-                        odorous: e.target.checked,
-                      },
-                    }));
-                  }}
+                  onChange={handleOsdsIsChange}
                   name="odorous"
                 />
               }
@@ -358,15 +329,7 @@ const EngineerSection = ({ postData, setPostData }) => {
               control={
                 <StyledCheckbox
                   checked={postData.osdsIs.unknown}
-                  onChange={(e) => {
-                    setPostData((postData) => ({
-                      ...postData,
-                      osdsIs: {
-                        ...postData.osdsIs,
-                        unknown: e.target.checked,
-                      },
-                    }));
-                  }}
+                  onChange={handleOsdsIsChange}
                   name="unknown"
                 />
               }

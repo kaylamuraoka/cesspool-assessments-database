@@ -1,32 +1,64 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector } from "react-redux";
-
+import { googleMapsApiKey } from "../../../utils/config";
+import throttle from "lodash/throttle";
+import PropTypes from "prop-types";
+import parse from "autosuggest-highlight/parse";
 import StyledRadio from "../../inputs/StyledRadio";
+import PhoneMaskInput from "../../textMasks/PhoneMaskInput";
 
 // Material UI Components
 import Box from "@material-ui/core/Box";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import RadioGroup from "@material-ui/core/RadioGroup";
-
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
-import { DateTimePicker } from "@material-ui/pickers";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import Typography from "@material-ui/core/Typography";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import EmailIcon from "@material-ui/icons/Email";
+import PhoneIcon from "@material-ui/icons/Phone";
+import PersonIcon from "@material-ui/icons/Person";
+
+PhoneMaskInput.propTypes = {
+  inputRef: PropTypes.func.isRequired,
+};
+
+function loadScript(src, position, id) {
+  if (!position) {
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.setAttribute("async", "");
+  script.setAttribute("id", id);
+  script.src = src;
+  position.appendChild(script);
+}
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 80,
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2),
   },
-  inputDiv: {
-    width: "100%",
-    marginTop: 15,
+  startIconPhoneInput: {
+    color: theme.palette.text.secondary,
+    opacity: 0.7,
+    marginRight: theme.spacing(1),
+  },
+  startIcon: {
+    color: theme.palette.text.secondary,
+    opacity: 0.7,
   },
 }));
+const autocompleteService = { current: null };
 
 const propertyLocationOptions = ["OSDS", "Public Sewer", "Unknown"];
 const osdsInServiceOptions = ["Yes", "No (Abandoned)", "Unknown"];
@@ -38,18 +70,77 @@ const solidPumpIntervalOptions = [
   ">24",
   "Unknown",
 ];
-
 const overflowPipeToSewerOptions = ["Yes", "No", "Unknown"];
-
 const osdsTypeOptions = ["Cesspool", "Septic Tank", "Aerobic Unit", "Unknown"];
 
 const HomeownerSection = ({ postData, setPostData }) => {
   const classes = useStyles();
+
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const loaded = useRef(false);
+
   const { alert } = useSelector((state) => state);
 
   const handleChangeInput = (e) => {
     setPostData({ ...postData, [e.target.name]: e.target.value });
   };
+
+  if (typeof window !== "undefined" && !loaded.current) {
+    if (!document.querySelector("#google-maps")) {
+      loadScript(
+        `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places`,
+        document.querySelector("head"),
+        "google-maps"
+      );
+    }
+
+    loaded.current = true;
+  }
+
+  const fetch = useMemo(
+    () =>
+      throttle((request, callback) => {
+        autocompleteService.current.getPlacePredictions(request, callback);
+      }, 200),
+    []
+  );
+
+  useEffect(() => {
+    let active = true;
+
+    if (!autocompleteService.current && window.google) {
+      autocompleteService.current =
+        new window.google.maps.places.AutocompleteService();
+    }
+    if (!autocompleteService.current) {
+      return undefined;
+    }
+    if (inputValue === "") {
+      setOptions(postData.mailingAddress ? [postData.mailingAddress] : []);
+      return undefined;
+    }
+
+    fetch({ input: inputValue }, (results) => {
+      if (active) {
+        let newOptions = [];
+
+        if (postData.mailingAddress) {
+          newOptions = [postData.mailingAddress];
+        }
+
+        if (results) {
+          newOptions = [...newOptions, ...results];
+        }
+
+        setOptions(newOptions);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [postData.mailingAddress, inputValue, fetch]);
 
   return (
     <Grid container spacing={2}>
@@ -67,12 +158,7 @@ const HomeownerSection = ({ postData, setPostData }) => {
             row
             name="propertyLocation"
             value={postData.propertyLocation}
-            onChange={(e) => {
-              setPostData({
-                ...postData,
-                propertyLocation: e.target.value,
-              });
-            }}
+            onChange={handleChangeInput}
           >
             {propertyLocationOptions.map((option) => (
               <FormControlLabel
@@ -104,12 +190,7 @@ const HomeownerSection = ({ postData, setPostData }) => {
             row
             name="osdsInService"
             value={postData.osdsInService}
-            onChange={(e) => {
-              setPostData({
-                ...postData,
-                osdsInService: e.target.value,
-              });
-            }}
+            onChange={handleChangeInput}
           >
             {osdsInServiceOptions.map((option) => (
               <FormControlLabel
@@ -252,12 +333,7 @@ const HomeownerSection = ({ postData, setPostData }) => {
             row
             name="overflowPipeToSewer"
             value={postData.overflowPipeToSewer}
-            onChange={(e) => {
-              setPostData({
-                ...postData,
-                overflowPipeToSewer: e.target.value,
-              });
-            }}
+            onChange={handleChangeInput}
           >
             {overflowPipeToSewerOptions.map((option) => (
               <FormControlLabel
@@ -358,6 +434,15 @@ const HomeownerSection = ({ postData, setPostData }) => {
           onChange={handleChangeInput}
           fullWidth
           label="Contact Name"
+          placeholder="Contact Name"
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PersonIcon fontSize="small" className={classes.startIcon} />
+              </InputAdornment>
+            ),
+          }}
           helperText={alert.contactName ? alert.contactName : null}
           error={alert.contactName ? true : false}
         />
@@ -365,15 +450,25 @@ const HomeownerSection = ({ postData, setPostData }) => {
 
       <Grid item xs={4}>
         <TextField
-          type="tel"
-          value={postData.contactPhone}
-          name="contactPhone"
-          onChange={handleChangeInput}
           fullWidth
-          label="Contact Phone"
           size="small"
-          helperText={alert.contactPhone ? alert.contactPhone : null}
+          variant="outlined"
+          label="Contact Phone"
+          value={postData.contactPhone}
+          onChange={handleChangeInput}
+          id="property-owner-phone-input"
+          name="contactPhone"
+          InputProps={{
+            startAdornment: (
+              <PhoneIcon
+                fontSize="small"
+                className={classes.startIconPhoneInput}
+              />
+            ),
+            inputComponent: PhoneMaskInput,
+          }}
           error={alert.contactPhone ? true : false}
+          helperText={alert.contactPhone ? alert.contactPhone : null}
         />
       </Grid>
       <Grid item xs={4}>
@@ -384,22 +479,89 @@ const HomeownerSection = ({ postData, setPostData }) => {
           name="email"
           size="small"
           label="Contact Email"
+          variant="outlined"
+          placeholder="Contact Email"
           fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon fontSize="small" className={classes.startIcon} />
+              </InputAdornment>
+            ),
+          }}
           helperText={alert.email ? alert.email : null}
           error={alert.email ? true : false}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <TextField
-          fullWidth
-          type="text"
+        <Autocomplete
+          id="google-map"
+          getOptionLabel={(option) =>
+            typeof option === "string" ? option : option.description
+          }
+          filterOptions={(x) => x}
+          options={options}
+          autoComplete
+          includeInputInList
+          filterSelectedOptions
           value={postData.mailingAddress}
-          name="mailingAddress"
-          onChange={handleChangeInput}
-          label="Mailing Address"
-          helperText={alert.mailingAddress ? alert.mailingAddress : null}
-          error={alert.mailingAddress ? true : false}
+          onChange={(event, newValue) => {
+            setOptions(newValue ? [newValue, ...options] : options);
+            setPostData({
+              ...postData,
+              mailingAddress: newValue
+                ? newValue.description
+                : event.target.value,
+            });
+          }}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Mailing Address"
+              variant="outlined"
+              size="small"
+              fullWidth
+              required
+              helperText={alert.mailingAddress ? alert.mailingAddress : null}
+              error={alert.mailingAddress ? true : false}
+            />
+          )}
+          renderOption={(option) => {
+            const matches =
+              option.structured_formatting.main_text_matched_substrings;
+            const parts = parse(
+              option.structured_formatting.main_text,
+              matches.map((match) => [
+                match.offset,
+                match.offset + match.length,
+              ])
+            );
+            return (
+              <Grid container alignItems="center">
+                <Grid item>
+                  <LocationOnIcon className={classes.icon} />
+                </Grid>
+                <Grid item xs>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{ fontWeight: part.highlight ? 700 : 400 }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+
+                  <Typography variant="body2" color="textSecondary">
+                    {option.structured_formatting.secondary_text}
+                  </Typography>
+                </Grid>
+              </Grid>
+            );
+          }}
         />
       </Grid>
     </Grid>
