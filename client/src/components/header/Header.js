@@ -20,7 +20,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Brightness4Icon from "@material-ui/icons/Brightness4";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ChatBubbleRoundedIcon from "@material-ui/icons/ChatBubbleRounded";
