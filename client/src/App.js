@@ -32,7 +32,7 @@ import Profile from "./pages/Profile";
 import Post from "./pages/Post";
 import Messages from "./pages/messages/Messages";
 import Conversation from "./pages/messages/Conversation";
-import OsdsFieldSurvey from "./pages/OsdsFieldSurvey";
+import Surveys from "./pages/Surveys";
 import Reports from "./pages/Reports";
 import Users from "./pages/Users";
 import Appointments from "./pages/Appointments";
@@ -346,7 +346,7 @@ function App() {
               <Route
                 exact
                 path="/surveys"
-                component={auth.token ? OsdsFieldSurvey : Login}
+                component={auth.token ? Surveys : Login}
               />
 
               <Route

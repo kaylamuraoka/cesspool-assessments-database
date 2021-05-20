@@ -17,6 +17,7 @@ import HeaderSection from "../components/form/sections/HeaderSection";
 import EngineerSection from "../components/form/sections/EngineerSection";
 import HomeownerSection from "../components/form/sections/HomeownerSection";
 import OsdsForm from "../components/form/OsdsForm";
+import FooterSection from "../components/form/sections/FooterSection";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -63,6 +64,7 @@ const steps = [
   "General Information",
   "OSDS Information",
   "Homeowner Questions",
+  "Add Photos & Notes",
   "Review",
 ];
 
@@ -132,7 +134,7 @@ const initialState = {
   additionalNotes: "",
 };
 
-const OsdsFieldSurvey = () => {
+const Surveys = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -155,6 +157,8 @@ const OsdsFieldSurvey = () => {
           <HomeownerSection postData={postData} setPostData={setPostData} />
         );
       case 3:
+        return <FooterSection postData={postData} setPostData={setPostData} />;
+      case 4:
         return <OsdsForm postData={postData} setPostData={setPostData} />;
       default:
         throw new Error("Unknown step");
@@ -245,4 +249,4 @@ const OsdsFieldSurvey = () => {
   );
 };
 
-export default OsdsFieldSurvey;
+export default Surveys;
