@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../redux/actions/postAction";
+import { postDataInitialState } from "../utils/formData";
 
-// Material UI Componentss
+// Material UI Components
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -70,78 +71,14 @@ const steps = [
 
 const currDateTime = moment().utcOffset("-10:00").format("YYYY-MM-DDThh:mm");
 
-const initialState = {
-  dateTime: currDateTime,
-  TMK: "1",
-  location: "",
-  propertyOwner: "",
-  propertyOwnerPhone: "808",
-  propertyOwnerEmail: "",
-  projectAddress: "",
-  engineer: "",
-  contractor: "",
-  weather: "",
-  weatherOtherValue: "",
-  lotOccupied: "",
-  lotOccupiedOtherValue: "",
-  osdsFound: "No",
-  accessPortProvided: "No",
-  numOfAccessPorts: "",
-  portSize: "",
-  osdsIs: {
-    dry: false,
-    wet_water_scum: false,
-    wet_sludge: false,
-    odorous: false,
-    unknown: false,
-  },
-  inletPipingFound: "No",
-  inletPipingDistance: "",
-  outletPipingFound: "No",
-  outletPipingDistance: "",
-  liquid: "",
-  liquidDistanceToFinishedGrade: "",
-  osdsLocation: {
-    frontyard: false,
-    backyard: false,
-    nextToBldg: false,
-    other: false,
-    otherValue: "",
-  },
-  rightOfEntryIssue: {
-    none: false,
-    fenced: false,
-    gated: false,
-    dogs: false,
-    other: false,
-    otherValue: "",
-  },
-  propertyLocation: "",
-  osdsInService: "",
-  numOfBedrooms: "",
-  numOfOsdsUnits: "",
-  totalVolume: "",
-  solidPumpInterval: "",
-  solidPumpIntervalOtherValue: "",
-  overflowPipeToSewer: "",
-  osdsType: "",
-  osdsTypeOtherValue: "",
-  bestDayTimeForVisit: currDateTime,
-  contactName: "",
-  contactPhone: "",
-  email: "",
-  mailingAddress: "",
-  additionalNotes: "",
-};
-
 const Surveys = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const { auth, socket } = useSelector((state) => state);
+  const { auth, socket, alert } = useSelector((state) => state);
 
   const [activeStep, setActiveStep] = useState(0);
-  const [postData, setPostData] = useState(initialState);
+  const [postData, setPostData] = useState(postDataInitialState);
   const [images, setImages] = useState([]);
   const [tracks, setTracks] = useState("");
 
@@ -185,16 +122,13 @@ const Surveys = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(postData);
 
     dispatch(createPost({ postData, images, auth, socket }));
 
-    // setPostData(initialState);
+    // setPostData(postDataInitialState);
     // setImages([]);
 
     if (tracks) tracks.stop();
-
-    // dispatch({ type: GLOBALTYPES.STATUS, payload: false });
   };
 
   return (
@@ -212,8 +146,9 @@ const Surveys = () => {
             ))}
           </Stepper>
           <>
-            {activeStep === steps.length ? (
-              <React.Fragment>
+            {activeStep === steps.length &&
+            alert.success === "Added New Field Survey!" ? (
+              <>
                 <Typography variant="h5" gutterBottom>
                   Thank you for your order.
                 </Typography>
@@ -222,9 +157,9 @@ const Surveys = () => {
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
-              </React.Fragment>
+              </>
             ) : (
-              <React.Fragment>
+              <>
                 {getStepContent(activeStep)}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
@@ -246,7 +181,7 @@ const Surveys = () => {
                     {activeStep === steps.length - 1 ? "Submit" : "Next"}
                   </Button>
                 </div>
-              </React.Fragment>
+              </>
             )}
           </>
         </Paper>

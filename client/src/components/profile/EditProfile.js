@@ -112,7 +112,7 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent style={{ paddingTop: "0" }}>
+      <DialogContent style={{ paddingTop: "0" }} dividers>
         <DialogContentText
           style={{ textAlign: "center", fontWeight: "500", opacity: "0.8" }}
         >
@@ -153,6 +153,7 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                size="small"
                 variant="outlined"
                 fullWidth
                 id="name"
@@ -175,6 +176,7 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                size="small"
                 autoComplete="email"
                 name="email"
                 variant="outlined"
@@ -203,6 +205,7 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                size="small"
                 variant="outlined"
                 id="phone"
                 fullWidth
@@ -224,7 +227,8 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
                 error={
                   alert.phone ||
                   alert.error ===
-                    "An account with this phone number already exists. Please sign in."
+                    "An account with this phone number already exists. Please sign in." ||
+                  alert.error === "Please enter a valid phone number."
                     ? true
                     : false
                 }
@@ -232,6 +236,7 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                size="small"
                 variant="outlined"
                 id="address"
                 fullWidth
@@ -256,10 +261,12 @@ const EditProfile = ({ onEdit, setOnEdit }) => {
         </form>
       </DialogContent>
       <DialogActions>
+        <Button variant="contained" onClick={() => setOnEdit(false)}>
+          Cancel
+        </Button>
         <Button
           variant="contained"
           color="secondary"
-          size="medium"
           startIcon={<SaveIcon />}
           onClick={handleSubmit}
         >

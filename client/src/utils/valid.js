@@ -50,7 +50,6 @@ export const validPost = ({
   propertyOwnerEmail,
   projectAddress,
   engineer,
-  contractor,
   weather,
   weatherOtherValue,
   lotOccupied,
@@ -79,10 +78,6 @@ export const validPost = ({
   osdsType,
   osdsTypeOtherValue,
   bestDayTimeForVisit,
-  contactName,
-  contactPhone,
-  email,
-  mailingAddress,
   additionalNotes,
 }) => {
   const err = {};
@@ -98,9 +93,6 @@ export const validPost = ({
   }
   if (!engineer) {
     err.engineer = "This field is required.";
-  }
-  if (!contractor) {
-    err.contractor = "This field is required.";
   }
 
   if (!weather.trim()) {
@@ -173,7 +165,8 @@ function isNumeric(value) {
 // Functions to validate user input
 function validateEmail(email) {
   // esLint-disable-next-line
-  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
 }
 

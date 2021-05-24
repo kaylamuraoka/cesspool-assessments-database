@@ -29,13 +29,13 @@ const PostHeader = ({ post }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleEditPost = () => {
-    history.push("/");
-    // dispatch({
-    //   type: GLOBALTYPES.STATUS,
-    //   payload: { ...post, onEdit: true },
-    // });
+    dispatch({
+      type: GLOBALTYPES.STATUS,
+      payload: { ...post, onEdit: true },
+    });
 
-    // setAnchorEl(null);
+    setAnchorEl(null);
+    // history.push(`/post/edit/${post._id}`);
   };
 
   const handleDeletePost = () => {
@@ -81,9 +81,8 @@ const PostHeader = ({ post }) => {
         underline="none"
         variant="inherit"
         color="textSecondary"
-        href={`/post/edit/${post._id}`}
       >
-        <MenuItem>
+        <MenuItem onClick={handleEditPost}>
           <ListItemIcon>
             <EditIcon fontSize="small" />
           </ListItemIcon>

@@ -35,6 +35,7 @@ const DataTable = ({ posts, load }) => {
 
     newPostsArr.push({
       id: i + 1,
+      _id: posts[i].TMK,
       dateTime: posts[i].dateTime,
       recordNum: posts[i]._id,
       TMK: posts[i].TMK,
@@ -45,6 +46,7 @@ const DataTable = ({ posts, load }) => {
       engineer: posts[i].engineer,
       contractor: posts[i].contractor,
       weather: weather,
+      weatherOtherValue: posts[i].weatherOtherValue,
       lotOccupied: lotOccupied,
       osdsFound: posts[i].osdsFound,
       accessPortProvided: posts[i].accessPortProvided,

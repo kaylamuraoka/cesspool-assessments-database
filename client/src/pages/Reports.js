@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import SurveyDataTable from "../components/tables/SurveyDataTable";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,6 +53,19 @@ const Reports = () => {
               <img src={LoadIcon} alt="Loading..." />
             ) : (
               <DataTable posts={homePosts.posts} load={load} />
+            )}
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Typography variant="h3" align="center">
+              Survey Data
+            </Typography>
+            <Divider />
+            {homePosts.loading ? (
+              <img src={LoadIcon} alt="Loading..." />
+            ) : (
+              <SurveyDataTable posts={homePosts.posts} load={load} />
             )}
           </Paper>
         </Grid>

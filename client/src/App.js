@@ -13,7 +13,7 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
+import { green, purple } from "@material-ui/core/colors";
 // Components
 import Alert from "./components/alert/Alert";
 import Header from "./components/header/Header";
@@ -40,6 +40,9 @@ import Dashboard from "./pages/Dashboard";
 import Map from "./pages/Map";
 import RecentActivity from "./pages/RecentActivity";
 import EditPost from "./pages/EditPost";
+import ListAppointment from "./components/appointments/ListAppointment";
+import AddAppointment from "./components/appointments/AddAppointment";
+import EditAppointment from "./components/appointments/EditAppointment";
 
 import io from "socket.io-client";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
@@ -58,6 +61,10 @@ const theme = createMuiTheme({
       },
     },
   },
+  // palette: {
+  //   success: green,
+  //   secondary: green,
+  // },
 });
 
 theme.typography.h1 = {
@@ -282,12 +289,16 @@ function App() {
 
               <Route path="/map" component={auth.token ? Map : Login} exact />
 
-              <Route path="/" component={auth.token ? Home : Login} exact />
+              <Route
+                path="/"
+                component={auth.token ? Dashboard : Login}
+                exact
+              />
 
               <Route
                 exact
                 path="/register"
-                component={auth.token ? Home : Register}
+                component={auth.token ? Dashboard : Register}
               />
 
               <Route
@@ -365,6 +376,24 @@ function App() {
               <Route
                 path="/appointments"
                 component={auth.token ? Appointments : Login}
+                exact
+              />
+
+              <Route
+                path="/list"
+                component={auth.token ? ListAppointment : Login}
+                exact
+              />
+
+              <Route
+                path="/addappointment"
+                component={auth.token ? AddAppointment : Login}
+                exact
+              />
+
+              <Route
+                path="/editappointment/:id"
+                component={auth.token ? EditAppointment : Login}
                 exact
               />
 

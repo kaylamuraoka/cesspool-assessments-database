@@ -64,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 
 const autocompleteService = { current: null };
 
+// const currDateTime = moment().utcOffset("-10:00").format("YYYY-MM-DDThh:mm");
+
 const locationOptions = ["Waianae", "Nanakuli", "Waimanalo"];
 
 const HeaderSection = ({ postData, setPostData }) => {
@@ -381,7 +383,7 @@ const HeaderSection = ({ postData, setPostData }) => {
           error={alert.engineer ? true : false}
         />
       </Grid>
-      <Grid item xs={12} sm={6}>
+      {/* <Grid item xs={12} sm={6}>
         <TextField
           required
           fullWidth
@@ -402,7 +404,7 @@ const HeaderSection = ({ postData, setPostData }) => {
           helperText={alert.contractor ? alert.contractor : null}
           error={alert.contractor ? true : false}
         />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

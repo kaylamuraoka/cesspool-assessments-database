@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { googleMapsApiKey } from "../../../utils/config";
-import throttle from "lodash/throttle";
 import PropTypes from "prop-types";
-import parse from "autosuggest-highlight/parse";
 import StyledRadio from "../../inputs/StyledRadio";
 import PhoneMaskInput from "../../textMasks/PhoneMaskInput";
 
@@ -18,9 +15,6 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import Typography from "@material-ui/core/Typography";
 import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 import PersonIcon from "@material-ui/icons/Person";
@@ -28,18 +22,6 @@ import PersonIcon from "@material-ui/icons/Person";
 PhoneMaskInput.propTypes = {
   inputRef: PropTypes.func.isRequired,
 };
-
-function loadScript(src, position, id) {
-  if (!position) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.setAttribute("async", "");
-  script.setAttribute("id", id);
-  script.src = src;
-  position.appendChild(script);
-}
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -56,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0.7,
   },
 }));
-const autocompleteService = { current: null };
 
 const propertyLocationOptions = ["OSDS", "Public Sewer", "Unknown"];
 const osdsInServiceOptions = ["Yes", "No (Abandoned)", "Unknown"];
@@ -74,71 +55,11 @@ const osdsTypeOptions = ["Cesspool", "Septic Tank", "Aerobic Unit", "Unknown"];
 const HomeownerSection = ({ postData, setPostData }) => {
   const classes = useStyles();
 
-  const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState([]);
-  const loaded = useRef(false);
-
   const { alert } = useSelector((state) => state);
 
   const handleChangeInput = (e) => {
     setPostData({ ...postData, [e.target.name]: e.target.value });
   };
-
-  if (typeof window !== "undefined" && !loaded.current) {
-    if (!document.querySelector("#google-maps")) {
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places`,
-        document.querySelector("head"),
-        "google-maps"
-      );
-    }
-
-    loaded.current = true;
-  }
-
-  const fetch = useMemo(
-    () =>
-      throttle((request, callback) => {
-        autocompleteService.current.getPlacePredictions(request, callback);
-      }, 200),
-    []
-  );
-
-  useEffect(() => {
-    let active = true;
-
-    if (!autocompleteService.current && window.google) {
-      autocompleteService.current =
-        new window.google.maps.places.AutocompleteService();
-    }
-    if (!autocompleteService.current) {
-      return undefined;
-    }
-    if (inputValue === "") {
-      setOptions(postData.mailingAddress ? [postData.mailingAddress] : []);
-      return undefined;
-    }
-
-    fetch({ input: inputValue }, (results) => {
-      if (active) {
-        let newOptions = [];
-
-        if (postData.mailingAddress) {
-          newOptions = [postData.mailingAddress];
-        }
-
-        if (results) {
-          newOptions = [...newOptions, ...results];
-        }
-
-        setOptions(newOptions);
-      }
-    });
-
-    return () => {
-      active = false;
-    };
-  }, [postData.mailingAddress, inputValue, fetch]);
 
   return (
     <Grid container spacing={2}>
@@ -406,6 +327,8 @@ const HomeownerSection = ({ postData, setPostData }) => {
 
       <Grid item xs={12}>
         <TextField
+          variant="outlined"
+          size="small"
           fullWidth
           label="Best Day/Time for Future Visit"
           id="datetime-local"
@@ -423,7 +346,7 @@ const HomeownerSection = ({ postData, setPostData }) => {
         />
       </Grid>
 
-      <Grid item xs={4}>
+      {/* <Grid item xs={4}>
         <TextField
           type="text"
           size="small"
@@ -444,9 +367,9 @@ const HomeownerSection = ({ postData, setPostData }) => {
           helperText={alert.contactName ? alert.contactName : null}
           error={alert.contactName ? true : false}
         />
-      </Grid>
+      </Grid> */}
 
-      <Grid item xs={4}>
+      {/* <Grid item xs={4}>
         <TextField
           fullWidth
           size="small"
@@ -468,8 +391,8 @@ const HomeownerSection = ({ postData, setPostData }) => {
           error={alert.contactPhone ? true : false}
           helperText={alert.contactPhone ? alert.contactPhone : null}
         />
-      </Grid>
-      <Grid item xs={4}>
+      </Grid> */}
+      {/* <Grid item xs={4}>
         <TextField
           type="email"
           onChange={handleChangeInput}
@@ -490,78 +413,7 @@ const HomeownerSection = ({ postData, setPostData }) => {
           helperText={alert.email ? alert.email : null}
           error={alert.email ? true : false}
         />
-      </Grid>
-
-      <Grid item xs={12}>
-        <Autocomplete
-          id="google-map"
-          getOptionLabel={(option) =>
-            typeof option === "string" ? option : option.description
-          }
-          filterOptions={(x) => x}
-          options={options}
-          autoComplete
-          includeInputInList
-          filterSelectedOptions
-          value={postData.mailingAddress}
-          onChange={(event, newValue) => {
-            setOptions(newValue ? [newValue, ...options] : options);
-            setPostData({
-              ...postData,
-              mailingAddress: newValue
-                ? newValue.description
-                : event.target.value,
-            });
-          }}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Mailing Address"
-              variant="outlined"
-              size="small"
-              fullWidth
-              required
-              helperText={alert.mailingAddress ? alert.mailingAddress : null}
-              error={alert.mailingAddress ? true : false}
-            />
-          )}
-          renderOption={(option) => {
-            const matches =
-              option.structured_formatting.main_text_matched_substrings;
-            const parts = parse(
-              option.structured_formatting.main_text,
-              matches.map((match) => [
-                match.offset,
-                match.offset + match.length,
-              ])
-            );
-            return (
-              <Grid container alignItems="center">
-                <Grid item>
-                  <LocationOnIcon className={classes.icon} />
-                </Grid>
-                <Grid item xs>
-                  {parts.map((part, index) => (
-                    <span
-                      key={index}
-                      style={{ fontWeight: part.highlight ? 700 : 400 }}
-                    >
-                      {part.text}
-                    </span>
-                  ))}
-
-                  <Typography variant="body2" color="textSecondary">
-                    {option.structured_formatting.secondary_text}
-                  </Typography>
-                </Grid>
-              </Grid>
-            );
-          }}
-        />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

@@ -52,7 +52,6 @@ function StatusModal() {
     projectAddress: "",
     city: "",
     engineer: "",
-    contractor: "",
     weather: "",
     weatherOtherValue: "",
     lotOccupied: "",
@@ -100,10 +99,6 @@ function StatusModal() {
     osdsType: "",
     osdsTypeOtherValue: "",
     bestDayTimeForVisit: currDateTime,
-    contactName: "",
-    contactPhone: "",
-    email: "",
-    mailingAddress: "",
     additionalNotes: "",
   };
 
@@ -215,7 +210,6 @@ function StatusModal() {
       keepMounted
       onClose={() => dispatch({ type: GLOBALTYPES.STATUS, payload: false })}
       aria-labelledby="form-dialog-title"
-      fullScreen
     >
       <DialogTitle>
         <Typography

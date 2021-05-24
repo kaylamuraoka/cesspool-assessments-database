@@ -97,7 +97,7 @@ const EngineerSection = ({ postData, setPostData }) => {
         <FormControl
           required
           fullWidth
-          error={alert.LotOccupied ? true : false}
+          error={alert.lotOccupied ? true : false}
         >
           <FormLabel component="legend">
             Lot Occupied?{" "}
@@ -153,13 +153,10 @@ const EngineerSection = ({ postData, setPostData }) => {
           )}
         </FormControl>
       </Grid>
+
       {/* Osds Found Section */}
       <Grid item xs={12}>
-        <FormControl
-          required
-          fullWidth
-          error={alert.LotOccupied ? true : false}
-        >
+        <FormControl required fullWidth error={alert.osdsFound ? true : false}>
           <FormLabel component="legend">
             OSDS Found?{" "}
             <FormHelperText component="span">

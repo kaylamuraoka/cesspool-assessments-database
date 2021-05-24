@@ -10,7 +10,14 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 
-const OsdsForm = ({ postData, setPostData }) => {
+const OsdsForm = ({
+  postData,
+  setPostData,
+  images,
+  setImages,
+  tracks,
+  setTracks,
+}) => {
   return (
     <Container>
       <Grid>
@@ -31,7 +38,14 @@ const OsdsForm = ({ postData, setPostData }) => {
         </Grid>
 
         <Grid item xs={12} style={{ marginBottom: 20 }}>
-          <FooterSection postData={postData} setPostData={setPostData} />
+          <FooterSection
+            postData={postData}
+            setPostData={setPostData}
+            images={images}
+            setImages={setImages}
+            tracks={tracks}
+            setTracks={setTracks}
+          />
         </Grid>
       </Grid>
     </Container>

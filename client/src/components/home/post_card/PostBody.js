@@ -20,7 +20,7 @@ const PostBody = ({ post }) => {
       <CardContent>
         <p>
           <strong>Date/Time: </strong>
-          <Moment>{post.dateTime}</Moment>
+          <Moment format="MMM D YYYY @HH:mm a">{post.dateTime}</Moment>
         </p>
         <p>
           <strong>Record No: </strong>
@@ -50,10 +50,6 @@ const PostBody = ({ post }) => {
         <p>
           <strong>Engineer: </strong>
           {post.engineer}
-        </p>
-        <p>
-          <strong>Contractor: </strong>
-          {post.contractor}
         </p>
         <p>
           <strong>Weather: </strong>
