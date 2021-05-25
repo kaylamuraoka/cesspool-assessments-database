@@ -2,7 +2,8 @@ const router = require("express").Router();
 const appointmentController = require("../controllers/appointmentController");
 const auth = require("../middleware/auth");
 
-router.post("/appointment", auth, appointmentController.createAppointment);
+// To add a new appointment
+router.post("/addAppointment", auth, appointmentController.createAppointment);
 
 router.get("/all_appointments", auth, appointmentController.getAllAppointments);
 
@@ -20,16 +21,23 @@ router.get(
   appointmentController.getAvailableAppointments
 );
 
+// To Get Appointment Details By Appointment ID
 router.get(
   "/appointment/:id",
   auth,
   appointmentController.getAppointmentDetails
 );
 
-router.patch("/appointment/:id", auth, appointmentController.updateAppointment);
+// To Update The Appointment Details
+router.patch(
+  "/updateAppointment/:id",
+  auth,
+  appointmentController.updateAppointment
+);
 
+// To Delete the Appointment
 router.delete(
-  "/appointment/:id",
+  "/deleteAppointment/:id",
   auth,
   appointmentController.deleteAppointment
 );

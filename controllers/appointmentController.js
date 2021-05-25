@@ -3,14 +3,8 @@ const Appointments = require("../models/appointmentModel");
 const appointmentController = {
   createAppointment: async (req, res) => {
     try {
-      const {
-        title,
-        notes,
-        status,
-        location,
-        startDateTime,
-        endDateTime,
-      } = req.body;
+      const { title, notes, status, location, startDateTime, endDateTime } =
+        req.body;
 
       const newAppointment = new Appointments({
         title,
@@ -24,7 +18,7 @@ const appointmentController = {
 
       await newAppointment.save();
 
-      res.json({ msg: "Success", newAppointment });
+      res.json({ msg: "Appointment Added Successfully", newAppointment });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -72,14 +66,15 @@ const appointmentController = {
   },
   updateAppointment: async (req, res) => {
     try {
-      const {
-        title,
-        notes,
-        status,
-        location,
-        startDateTime,
-        endDateTime,
-      } = req.body;
+      const appointmentExists = await Appointments.findById(req.params.id);
+
+      if (!appointmentExists)
+        return res
+          .status(400)
+          .json({ msg: "Unable To Find Appointment With This Id" });
+
+      const { title, notes, status, location, startDateTime, endDateTime } =
+        req.body;
 
       await Appointments.findOneAndUpdate(
         {
@@ -89,7 +84,7 @@ const appointmentController = {
         { title, notes, status, location, startDateTime, endDateTime }
       );
 
-      res.json({ msg: "Updated Appointment!" });
+      res.json({ msg: "Appointment Updated Successfully" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -98,10 +93,9 @@ const appointmentController = {
     try {
       const appointment = await Appointments.findOneAndDelete({
         _id: req.params.id,
-        // $or: [{ user: req.user._id }, { postUserId: req.user._id }],
       });
 
-      res.json({ msg: "Deleted Appointment!" });
+      res.json({ msg: "Appointment Deleted Successfully" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

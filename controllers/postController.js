@@ -63,7 +63,6 @@ const postController = {
         propertyOwnerEmail,
         projectAddress,
         engineer,
-        contractor,
         weather,
         weatherOtherValue,
         lotOccupied,
@@ -92,10 +91,6 @@ const postController = {
         osdsType,
         osdsTypeOtherValue,
         bestDayTimeForVisit,
-        contactName,
-        contactPhone,
-        email,
-        mailingAddress,
         additionalNotes,
         images,
       } = req.body;
@@ -105,7 +100,6 @@ const postController = {
         !location ||
         !projectAddress ||
         !engineer ||
-        !contractor ||
         !weather ||
         !lotOccupied
       )
@@ -132,9 +126,7 @@ const postController = {
         propertyOwnerEmail,
         projectAddress,
         engineer,
-        contractor,
         weather,
-        contractor,
         weatherOtherValue,
         lotOccupied,
         lotOccupiedOtherValue,
@@ -162,10 +154,6 @@ const postController = {
         osdsType,
         osdsTypeOtherValue,
         bestDayTimeForVisit,
-        contactName,
-        contactPhone,
-        email,
-        mailingAddress,
         additionalNotes,
         coordinates,
         images,
@@ -175,7 +163,7 @@ const postController = {
       await newPost.save();
 
       res.json({
-        msg: "Created Post!",
+        msg: "Added New Field Survey!",
         newPost: {
           ...newPost._doc,
           user: req.user,
@@ -221,7 +209,6 @@ const postController = {
         propertyOwnerEmail,
         projectAddress,
         engineer,
-        contractor,
         weather,
         weatherOtherValue,
         lotOccupied,
@@ -250,10 +237,6 @@ const postController = {
         osdsType,
         osdsTypeOtherValue,
         bestDayTimeForVisit,
-        contactName,
-        contactPhone,
-        email,
-        mailingAddress,
         additionalNotes,
         images,
       } = req.body;
@@ -269,7 +252,6 @@ const postController = {
           propertyOwnerEmail,
           projectAddress,
           engineer,
-          contractor,
           weather,
           weatherOtherValue,
           lotOccupied,
@@ -298,10 +280,6 @@ const postController = {
           osdsType,
           osdsTypeOtherValue,
           bestDayTimeForVisit,
-          contactName,
-          contactPhone,
-          email,
-          mailingAddress,
           additionalNotes,
           images,
         }
@@ -327,7 +305,6 @@ const postController = {
           propertyOwnerEmail,
           projectAddress,
           engineer,
-          contractor,
           weather,
           weatherOtherValue,
           lotOccupied,
@@ -356,10 +333,6 @@ const postController = {
           osdsType,
           osdsTypeOtherValue,
           bestDayTimeForVisit,
-          contactName,
-          contactPhone,
-          email,
-          mailingAddress,
           additionalNotes,
           images,
         },
@@ -585,7 +558,8 @@ const postController = {
 
 // Functions to validate user input
 function validateEmail(email) {
-  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
 }
 

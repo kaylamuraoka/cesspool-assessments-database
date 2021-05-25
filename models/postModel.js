@@ -35,10 +35,6 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    contractor: {
-      type: String,
-      required: true,
-    },
     weather: {
       type: String,
       required: true,
@@ -210,22 +206,6 @@ const postSchema = new mongoose.Schema(
       default: "",
     },
     bestDayTimeForVisit: {
-      type: String,
-      default: "",
-    },
-    contactName: {
-      type: String,
-      default: "",
-    },
-    contactPhone: {
-      type: String,
-      default: "",
-    },
-    email: {
-      type: String,
-      default: "",
-    },
-    mailingAddress: {
       type: String,
       default: "",
     },
