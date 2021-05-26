@@ -32,22 +32,22 @@ const userSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/fukunagaengineers/image/upload/v1618629939/cesspool-assessments/user-avatars/u2rw8sddianfpookkdey.png",
     },
-    address: {
-      type: String,
-      default: "",
-    },
-    followers: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "user",
-      },
-    ],
-    following: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "user",
-      },
-    ],
+    // address: {
+    //   type: String,
+    //   default: "",
+    // },
+    // followers: [
+    //   {
+    //     type: mongoose.Types.ObjectId,
+    //     ref: "user",
+    //   },
+    // ],
+    // following: [
+    //   {
+    //     type: mongoose.Types.ObjectId,
+    //     ref: "user",
+    //   },
+    // ],
     saved: [
       {
         type: mongoose.Types.ObjectId,

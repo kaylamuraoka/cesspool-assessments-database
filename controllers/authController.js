@@ -124,10 +124,12 @@ const authController = {
       if (!email || !password)
         return res.status(400).json({ msg: "Please fill in all fields." });
 
-      const user = await Users.findOne({ email }).populate(
-        "followers following",
-        "avatar name email followers following"
-      );
+      const user = await Users.findOne({ email });
+
+      // .populate(
+      //   "followers following",
+      //   "avatar name email followers following"
+      // );
 
       if (!user)
         return res
@@ -144,7 +146,7 @@ const authController = {
       res.cookie("refreshtoken", refresh_token, {
         httpOnly: true,
         path: "/api/refresh_token",
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
       res.json({
@@ -171,9 +173,8 @@ const authController = {
         async (err, result) => {
           if (err) return res.status(400).json({ msg: "Please login now!" });
 
-          const user = await Users.findById(result.id)
-            .select("-password")
-            .populate("followers following");
+          const user = await Users.findById(result.id).select("-password");
+          // .populate("followers following");
 
           if (!user)
             return res.status(400).json({ msg: "This does not exist." });
@@ -250,13 +251,12 @@ const authController = {
       return res.status(500).json({ msg: err.message });
     }
   },
-
   logout: async (req, res) => {
     try {
       res.clearCookie("refreshtoken", {
         path: "/api/refresh_token",
       });
-      return res.json({ msg: "Logged out!" });
+      return res.json({ msg: "Logged out successfully!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
