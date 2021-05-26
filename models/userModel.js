@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter your password!"],
     },
     role: {
-      type: String,
+      type: Number,
       default: 0, // 0=user, 1=admin
     },
     avatar: {

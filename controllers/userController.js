@@ -74,9 +74,21 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getAllUsersInfo: async (req, res) => {
+    try {
+      const users = await Users.find().select("-password");
+
+      res.json({
+        users,
+        total: users.length,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
   updateUser: async (req, res) => {
     try {
-      const { name, email, phone, address, avatar } = req.body;
+      const { name, email, phone, avatar } = req.body;
 
       if (!validateName(name))
         return res.status(400).json({ msg: "Please enter a valid name." });
@@ -97,7 +109,6 @@ const userController = {
           name,
           email,
           phone,
-          address,
           avatar,
         }
       );
@@ -105,6 +116,40 @@ const userController = {
       res.json({ msg: "Update success!" });
     } catch (err) {
       console.log(err);
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  updateUsersRole: async (req, res) => {
+    try {
+      const { role } = req.body;
+
+      await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          role,
+        }
+      );
+
+      res.json({ msg: "Updated user's role successfully!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  deleteAccount: async (req, res) => {
+    try {
+      await Users.findByIdAndDelete(req.user.id);
+
+      res.json({ msg: "Your account has been deleted successfully!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  adminDeleteUser: async (req, res) => {
+    try {
+      await Users.findByIdAndDelete(req.params.id);
+
+      res.json({ msg: "User has been deleted successfully!" });
+    } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -206,27 +251,6 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
-  getUserInfo: async (req, res) => {
-    try {
-      const user = await Users.findById(req.user.id).select("-password");
-
-      res.json(user);
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-  getAllUsersInfo: async (req, res) => {
-    try {
-      const users = await Users.find().select("-password");
-
-      res.json({
-        users,
-        total: users.length,
-      });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
   getSearchedUsers: async (req, res) => {
     try {
       const users = await Users.find().select("-password");
@@ -235,75 +259,6 @@ const userController = {
         users,
         total: users.length,
       });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-
-  deleteAccount: async (req, res) => {
-    try {
-      await Users.findByIdAndDelete(req.user.id);
-
-      res.json({ msg: "Your account has been deleted successfully!" });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-  updateUser2: async (req, res) => {
-    try {
-      const { name, email, phone, avatar } = req.body;
-
-      if (!validateName(name))
-        return res.status(400).json({ msg: "Please enter a valid name." });
-
-      if (!validateEmail(email))
-        return res
-          .status(400)
-          .json({ msg: "Please enter a valid email address." });
-
-      if (!validatePhone(phone))
-        return res
-          .status(400)
-          .json({ msg: "Please enter a valid phone number." });
-
-      await Users.findOneAndUpdate(
-        { _id: req.user.id },
-        {
-          name,
-          email,
-          phone,
-          avatar,
-        }
-      );
-
-      res.json({ msg: "Update success!" });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-
-  updateUsersRole: async (req, res) => {
-    try {
-      const { role } = req.body;
-
-      await Users.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          role,
-        }
-      );
-
-      res.json({ msg: "Update success!" });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-  deleteUser: async (req, res) => {
-    try {
-      await Users.findByIdAndDelete(req.params.id);
-
-      res.json({ msg: "User has been deleted successfully!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -329,18 +284,6 @@ function validatePhone(phone) {
     return false;
   }
   return true;
-}
-
-function validatePassword(password) {
-  if (password.length < 6) {
-    return false;
-  }
-  return true;
-}
-
-function isMatch(password, cf_password) {
-  if (password === cf_password) return true;
-  return false;
 }
 
 module.exports = userController;
