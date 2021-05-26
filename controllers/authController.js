@@ -29,15 +29,13 @@ const authController = {
       const user = await Users.findOne({ email });
       if (user)
         return res.status(400).json({
-          msg:
-            "An account with this email address already exists. Please sign in.",
+          msg: "An account with this email address already exists. Please sign in.",
         });
 
       const phoneExists = await Users.findOne({ phone });
       if (phoneExists)
         return res.status(400).json({
-          msg:
-            "An account with this phone number already exists. Please sign in.",
+          msg: "An account with this phone number already exists. Please sign in.",
         });
 
       if (!validatePassword(password))
@@ -68,35 +66,12 @@ const authController = {
       );
 
       res.json({
-        msg:
-          "Your account has been created successfully! Please check your email for a verification link to activate your account.",
+        msg: "Your account has been created successfully! Please check your email for a verification link to activate your account.",
         user: {
           ...newUser._doc,
           password: "",
         },
       });
-
-      // const access_token = createAccessToken({ id: newUser._id });
-      // const refresh_token = createRefreshToken({ id: newUser._id });
-
-      // res.cookie("refreshtoken", refresh_token, {
-      //   httpOnly: true,
-      //   path: "/api/refresh_token",
-      //   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      // });
-
-      // await newUser.save();
-
-      // const url = `${CLIENT_URL}/user/activate/${activation_token}`;
-
-      // sendMail(
-      //   email,
-      //   url,
-      //   "Verify your email address",
-      //   name,
-      //   "Sign in to Validate your Email Address",
-      //   "Congratulations! You're almost set to start using your account. Just click the button below to validate your email address."
-      // );
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -107,8 +82,7 @@ const authController = {
 
       if (!activation_token)
         return res.status(400).json({
-          msg:
-            "No activation token. Please sign up again to receive a valid link.",
+          msg: "No activation token. Please sign up again to receive a valid link.",
         });
 
       const user = jwt.verify(
@@ -137,8 +111,7 @@ const authController = {
     } catch (err) {
       if (err.message === "jwt expired")
         return res.status(500).json({
-          msg:
-            "This link has expired. Sign up again to receive an active link.",
+          msg: "This link has expired. Sign up again to receive an active link.",
         });
 
       return res.status(500).json({ msg: err.message });
@@ -292,7 +265,8 @@ const authController = {
 
 // Functions to validate user input
 function validateEmail(email) {
-  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
 }
 
